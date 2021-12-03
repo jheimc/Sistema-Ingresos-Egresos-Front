@@ -1,0 +1,49 @@
+<img src=""  class="avatar mat-elevation-z8">
+<h4 class="name">username</h4>
+<p class="designation">Admin</p>
+
+<mat-divider></mat-divider>
+
+    <a mat-button class="menu-button" routerLink="/home">
+        <mat-icon>home</mat-icon>
+        <span>Inicio</span>
+    </a>
+    <a mat-button class="menu-button" routerLink="/home/manage-users" *ngIf="ROLE_ADMIN" >
+        <mat-icon>person</mat-icon>
+        <span>Control de Usuario</span>
+    </a>
+    <a mat-button class="menu-button" (click)="open=!open"*ngIf="ROLE_USER_FINAL" >
+        <mat-icon>receipt_long</mat-icon>
+        <span>Cuentas</span>
+    </a>
+    <div *ngIf="open" style="margin-left: 10px;" >
+        <a mat-button class="sub-menu-button" routerLink="/home/income-accounts">
+            <mat-icon>show_chart</mat-icon>
+            <span>Cuenta Ingresos</span>
+        </a>
+        <a mat-button class="sub-menu-button" routerLink="/home/expense-accounts">
+            <mat-icon>show_chart</mat-icon>
+            <span>cuenta Egresos</span>
+        </a>
+    </div>
+    <a mat-button class="menu-button" *ngIf="ROLE_USER_FINAL" >
+        <mat-icon>attach_money</mat-icon>
+        <span>Ingresos</span>
+    </a>
+    
+    <a mat-button class="menu-button"  *ngIf="ROLE_USER_FINAL" >
+        <mat-icon>cloud_download</mat-icon>
+        <span>Egresos</span>
+    </a>
+    
+    
+    <a mat-button class="menu-button" *ngIf="ROLE_USER_FINAL || ROLE_ADMIN">
+        <mat-icon>summarize</mat-icon>
+        <span>Reporte General</span>
+    </a>
+<mat-divider></mat-divider>
+    <a mat-button class="menu-button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Cerrar Sesión</span>
+    </a>
+    

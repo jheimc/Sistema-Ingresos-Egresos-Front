@@ -1,0 +1,35 @@
+.example-spacer {
+    flex: 1 1 auto;
+    text-align: end;
+  }
+ 
+  mat-toolbar {
+    background-color: #212F3C;
+    color: #ffff;
+  } 
+  mat-button {
+    padding: 15px;
+    margin: 15px;
+    font-size: 14px;
+    color: #ffff;
+  }
+  .mat-toolbar-row, .mat-toolbar-single-row {
+    height: 56px;
+}
+  a {
+    font-family: Roboto,"Helvetica Neue",sans-serif;
+    font-size: 14px;
+  }
+  mat-form-field {
+    font-size: 15px;
+  }
+  .btn-logout {
+    color: white;
+    width: 100%;
+  }
+  ::ng-deep .menu-without-scroll {
+    overflow: hidden !important;
+  }
+  .btn-raised a{
+    color: black;
+  }

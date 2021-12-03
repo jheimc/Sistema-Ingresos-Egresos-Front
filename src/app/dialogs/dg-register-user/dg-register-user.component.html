@@ -1,0 +1,157 @@
+<div *ngIf="transform=='register'">
+    <form  [formGroup]="registerUser" #formDirective="ngForm" (ngSubmit)="saveUser(registerUser.value,formDirective)">
+
+        <div class="card"> 
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
+                <h2>Registrar Usuario</h2>
+            </div> 
+        
+                <div style="width: 100%;">
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombres</mat-label>
+                        <input matInput placeholder="ingres nombre de usuario" formControlName="name"
+                                required type="text">
+                        <mat-error >este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombre de usuario</mat-label>
+                        <input matInput placeholder="ingrese un nick" required type="text"
+                                formControlName="username" >
+                        <mat-error *ngIf="isValidField('username')" >{{getErrorMessage('username','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="ingrese una contraseña" 
+                                required formControlName="password"     >
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-hint *ngIf="destroy!=false" style="color:var(--btn-color-pri);">contraseña generada</mat-hint>
+                        <mat-error>este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>N° Telefono</mat-label>
+                        <input matInput placeholder="ingrese su numero de celular" formControlName="telephone"
+                                required type="number">
+                        <mat-error *ngIf="isValidField('telephone')">{{getErrorMessageNumber('telephone','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider style="padding-bottom: 15px;"></mat-divider>
+        
+                    <!--asignacion-->
+                    
+                    <div class="field">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Fecha de expiración</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="expiryDate"
+                                   (dateInput)="addEvent( $event)" >
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                          </mat-form-field>
+                    </div>
+                    <div style="text-align: center; width: 100%;">
+                        <button mat-raised-button class="button" [disabled]="registerUser.invalid">
+                            REGISTRAR
+                        </button>
+                    </div>
+                    
+                </div>
+        
+        </div>
+        
+        </form>
+</div>
+
+
+<!--EDITAR USUARIO-->
+<div *ngIf="transform=='edit'">
+    <form  [formGroup]="editUser" #formDirective="ngForm" (ngSubmit)="saveEdit(editUser.value,formDirective)">
+
+        <div class="card" style="height: 560px;"> 
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
+                <h2>Actualizar datos</h2>
+            </div> 
+        
+                <div style="width: 100%;">
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombres</mat-label>
+                        <input matInput placeholder="ingres nombre de usuario" formControlName="name"
+                                 type="text">
+                        
+                        <mat-error >este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombre de usuario</mat-label>
+                        <input matInput placeholder="ingrese un nick"  type="text"
+                                formControlName="username" >
+                        <mat-error *ngIf="isValidFieldEdit('username')" >{{getErrorMessage2 ('username','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="ingrese una description" 
+                                 formControlName="password" >
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        
+                        <mat-error>este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Correo electronico</mat-label>
+                        <input matInput placeholder="ingrese un correo"  type="email"
+                                formControlName="email">
+                        <mat-error *ngIf="isValidFieldEdit('email')" >{{getErrorMessage2('email','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>N° Celular</mat-label>
+                        <input matInput placeholder="ingrese su numero de celular" formControlName="telephone"
+                                required type="number">
+                                <mat-error *ngIf="isValidFieldEdit('telephone')">{{getErrorMessage2('telephone','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Role</mat-label>
+                            <mat-select   (valueChange)="print($event)" formControlName="idRole">
+                                    <mat-option  *ngFor="let role of roles" [value]="role.idRole">{{role.roleName}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Sector</mat-label>
+                            <mat-select formControlName="idSector" >
+                        
+                                <ng-container >
+                                    <mat-option  *ngFor="let unit of units" [value]="unit.idSector">{{unit.sectorName}}</mat-option>
+                                </ng-container>
+                                  
+                            </mat-select>
+                          </mat-form-field>
+                    </div>
+                    <div style="text-align: center; width: 100%;">
+                        <button mat-raised-button class="button"[disabled]="editUser.invalid" >
+                            ACTUALIZAR
+                        </button>
+                    </div>
+                </div>
+        </div>
+    </form>
+</div>

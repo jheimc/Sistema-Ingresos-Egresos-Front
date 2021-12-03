@@ -1,0 +1,36 @@
+<div class="header">
+    <h3>Cuentas de Ingresos</h3>
+    
+</div>
+    <a mat-button class="btn-catalog"(click)="openIncome()">
+        <mat-icon>add_circle_outline</mat-icon>
+        <span> Crear cuenta</span>
+      
+    </a>
+    <div  style=" overflow: scroll; overflow-x: hidden;    ">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
+
+        <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> {{columna.titulo}}  </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element[columna.name]}} </td>
+        </ng-container>
+        <ng-container matColumnDef="actions" >
+            <th mat-header-cell *matHeaderCellDef style="min-width: 85px;   text-align: center;font-weight: bold;"> ACCIONES </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center; " > 
+
+               
+                <button mat-icon-button matSuffix  matTooltip="Editar">
+                    <mat-icon style="color:#0460ca;" >edit</mat-icon>
+                </button>
+                <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
+                    <mat-icon style="color:rgb(197, 33, 33)">delete_outline</mat-icon>
+                </button>
+
+             </td>
+            <td mat-footer-cell *matFooterCellDef></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>

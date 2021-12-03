@@ -1,0 +1,33 @@
+
+    <div>
+        <mat-toolbar>
+            <button mat-icon-button (click)="inputSideNav.toggle()" >
+                <mat-icon>menu</mat-icon>
+              </button>
+            <span></span>
+            <div class="example-spacer">
+              <a mat-button routerLink="/"><mat-icon>home</mat-icon> Inicio</a>
+            </div>
+    
+            <a mat-button routerLink="/login" *ngIf="notLogedUser; else users"><mat-icon>person_outline</mat-icon> Iniciar sesion</a>
+            <ng-template #users>
+              <a mat-raised-button class="btn-raised " [matMenuTriggerFor]="menu" ><mat-icon>account_circle</mat-icon> {{user.userName}}<mat-icon>expand_more</mat-icon></a>
+               
+            </ng-template>
+             <mat-menu #menu="matMenu" class="menu-without-scroll">
+                  <ng-container *ngIf="disabledButton==false">
+                    <button mat-menu-item [routerLink]="['/home/orders-list']">
+                      <mat-icon>format_list_numbered</mat-icon> Ver Lista de Pedidos
+                    </button>
+                    <button mat-menu-item [routerLink]="['/home/user/update-user']">
+                      <mat-icon>manage_accounts</mat-icon> Ver Perfil
+                    </button>
+                  </ng-container>
+                    <button mat-menu-item class="btn-logout" (click)="logout()">
+                        <a mat-raised-button color="accent" style="width: 100%;" ><mat-icon>logout</mat-icon> Cerrar sesion</a>
+                    </button>
+                </mat-menu>
+        </mat-toolbar>
+            
+    </div>
+    

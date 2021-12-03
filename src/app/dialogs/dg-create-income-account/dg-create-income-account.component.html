@@ -1,0 +1,20 @@
+<div style="text-align: end;">
+    <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
+</div>
+
+<div class="popup" [formGroup]="income">
+    <h1>Agregar cuenta de Ingreso</h1>
+    <p>Ingresa el nombre de la cuenta</p>
+    <div class="field">
+        <mat-form-field  appearance="outline" style="width: 100%;">
+        <mat-label>Cuenta</mat-label>
+        <input matInput placeholder="Ingresa el nombre de la cuenta" required type="text" formControlName='incomeName'>
+        <mat-error >este campo es requerido</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="links">
+      <button class="btn-confirm" [disabled]="income.invalid" type="submit" (click)="sendIncome(income.value)">
+        <span > Guardar cuenta</span>
+      </button>
+    </div>
+  </div>

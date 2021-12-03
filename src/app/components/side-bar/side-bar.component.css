@@ -1,0 +1,29 @@
+.name{
+    margin-top: 8px;
+    font-weight: normal;
+    text-transform: uppercase;
+}
+.designation{
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: lightgray;
+}
+a{
+    color: white;
+}
+mat-divider{
+    margin-top: 16px;
+    margin-bottom: 16px;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.menu-button{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    font-size: 1rem;
+    background: none
+}
+mat-icon{
+      margin-right: 8px;  
+}

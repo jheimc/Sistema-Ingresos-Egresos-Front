@@ -1,0 +1,52 @@
+<div id="container">
+    <div id="content-container">
+       <h1>¡Bienvenid@!</h1>
+       <form class="main" [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onLogin(loginForm.value,formDirective)">
+
+
+        <mat-card class="mat-elevation-z5" style="width: 100%; height: auto;">
+            <mat-card-title style="text-align: center; padding-top: 25px; padding-bottom: 25px;"> 
+                Iniciar Sesion
+            </mat-card-title>
+            <mat-error *ngIf="errorLogin==true" style="font-size: 12px;"><mat-icon>error_outline</mat-icon> Usuario o contraseña incorrectos</mat-error>
+                
+            <mat-card-content >
+                <div style="width: 100%;">
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Username</mat-label>
+                        <input matInput placeholder="Nombre de usuario" required type="text" formControlName='username'>
+                        <mat-error >este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="Ingrese contraseña" 
+                                required type="password" formControlName='password'>
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        <mat-error>este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <p><a mat-button >¿Has olvidado tu contraseña?</a></p>
+                    <div style="text-align: center; width: 100%; " >
+                        <button mat-raised-button style="background-color:#212F3C; width: 100%; color: white;" type="submit"> 
+                            INICIAR SESION
+                            <mat-icon>login</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        
+    
+    </form>
+    </div>
+    <div id="bg-container">
+       <img src="./../../../assets/ingresos-egresos-3.png"> 
+    </div>
+ </div>
+
+
