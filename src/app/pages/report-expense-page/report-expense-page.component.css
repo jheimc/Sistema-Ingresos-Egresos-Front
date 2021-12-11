@@ -17,6 +17,7 @@ table {
   margin-left:20px;
   margin-right:20px;
   margin-bottom:20px;
+  margin-top: 20px;
   width: max-content;
 }
 h3{
@@ -26,6 +27,17 @@ h3{
   line-height:16px;
   margin:15px 0px 3px;
 }
-::ng-deep .snackSuccess {
-  background-color: #41a812;
+h1{
+    color:#575757;
+    font-family:Montserrat;
+    font-weight:800;
+    line-height:25px;
+    margin:15px 0px 3px;
+  }
+.mat-form-field {
+    font-size: initial;
 }
+tr.mat-footer-row {
+    font-weight: bold;
+    background-color: #ebebeb;
+  }

@@ -11,7 +11,13 @@ import { RequestService } from 'src/app/services/request.service';
 })
 export class DgCreateExpenseAccountComponent implements OnInit {
   activateSpinner:boolean;
+  transform:any;
+  expenseData:any;
   expense=this.formBuilder.group({
+    
+    expenseName:['',[Validators.required]],
+  })
+  expenseEdit=this.formBuilder.group({
     
     expenseName:['',[Validators.required]],
   })
@@ -23,6 +29,12 @@ export class DgCreateExpenseAccountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.transform=this.data.transform;
+    this.expenseData=this.data.expense;
+    if(this.transform=='edit'){
+      this.expenseEdit.controls['expenseName'].setValue(this.expenseData?.expenseName);
+
+    }
   }
   sendExpense(expense){
     console.log(expense)
@@ -33,6 +45,19 @@ export class DgCreateExpenseAccountComponent implements OnInit {
       },
       error:()=>{
         this.snack.open('Error al crear cuenta.','CERRAR',{duration:5000,panelClass:'snackError',})
+        //window.location.reload();
+
+      }
+    })
+  }
+  updateExpense(expense){
+    this.RequestService.put("http://localhost:8080/api/expense/updateExpense/"+this.expenseData.idExpense,expense).subscribe({
+      next:()=>{
+        this.snack.open('Cuenta actualizada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
+        window.location.reload();
+      },
+      error:()=>{
+        this.snack.open('Error al actualizar cuenta.','CERRAR',{duration:5000,panelClass:'snackError',})
         //window.location.reload();
 
       }

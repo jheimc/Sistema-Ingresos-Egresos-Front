@@ -1,13 +1,14 @@
-<div class="header">
-    <h3>Cuentas de Ingresos</h3>
-    
-</div>
-    <a mat-button class="btn-catalog"(click)="openIncome()">
+<mat-card style="width: 95%; height: 100%;">
+    <mat-card-header>
+        <mat-card-title><mat-icon>cloud_download</mat-icon> Egresos</mat-card-title>
+      </mat-card-header>
+      <mat-divider></mat-divider>
+      <a mat-button class="btn-catalog"(click)="openExpense()">
         <mat-icon>add_circle_outline</mat-icon>
-        <span> Crear cuenta</span>
+        <span> Nuevo egreso</span>
       
     </a>
-    <div  style=" overflow: scroll; overflow-x: hidden;    ">
+    <div  style=" overflow: scroll; overflow-x: scroll;    ">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
 
         <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
@@ -20,11 +21,11 @@
 
                
                 <button mat-icon-button matSuffix  matTooltip="Editar">
-                    <mat-icon style="color:#0460ca;"  (click)="openEditIncome(element)">edit</mat-icon>
+                    <mat-icon style="color:#0460ca;"  (click)="openEditExpense(element)">edit</mat-icon>
                 </button>
-                <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
+                <!-- <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
                     <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteIncome(element.idIncome)">delete_outline</mat-icon>
-                </button>
+                </button> -->
 
              </td>
             <td mat-footer-cell *matFooterCellDef></td>
@@ -34,3 +35,5 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
+
+</mat-card>

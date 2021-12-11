@@ -52,7 +52,29 @@ export class ExpenseAccountsComponent implements OnInit {
       width: '60%',
       data:{
         user:this.user,
+        transform:'register'
       }
     }); 
+  }
+  openEditExpense(expense){
+    this.dialog.open(DgCreateExpenseAccountComponent,{
+      width: '60%',
+      data:{
+        expense:expense,
+        transform:'edit',
+      }
+    });
+  }
+  deleteExpense(idExpense){
+    this.RequestService.put('http://localhost:8080/api/expense/deleteExpense/'+idExpense,{})
+    .subscribe({
+      error:()=>{
+        this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
+        window.location.reload();
+      },
+      /* error:()=>{
+        this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
+      } */
+    });
   }
 }

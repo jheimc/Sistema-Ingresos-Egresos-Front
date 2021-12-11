@@ -1,0 +1,177 @@
+<div *ngIf="transform=='register'">
+    <form  [formGroup]="registerExpense" #formDirective="ngForm" (ngSubmit)="saveExpense(registerExpense.value,formDirective)">
+
+        <div class="card"> 
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
+                <h2>Añadir Egreso</h2>
+            </div> 
+        
+                <div style="width: 100%;">
+                    <div style="display: flex; width: 100%;">
+                        <div class="field" style="width: 50%;margin-right: 10px;">
+                            <mat-form-field appearance="outline" style="width: 100%; ">
+                                <mat-label>Fecha</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="date"
+                                       (dateInput)="addEvent( $event)" >
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-error *ngIf="isValidField('date')" >{{getErrorMessage('date','register')}}</mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="field" style="width: 50%;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Mes</mat-label>
+                                <mat-select formControlName="month" >
+                            
+                                    <ng-container >
+                                        <mat-option  *ngFor="let month of months" [value]="month.name">{{month.name}}</mat-option>
+                                    </ng-container>
+                                      
+                                </mat-select>
+                                <mat-error *ngIf="isValidField('month')" >{{getErrorMessage('month','register')}}</mat-error>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Cuenta</mat-label>
+                            <mat-select formControlName="idExpense" >
+                        
+                                <ng-container >
+                                    <mat-option  *ngFor="let expense of expenses" [value]="expense.idExpense">{{expense.expenseName}}</mat-option>
+                                </ng-container>
+                                  
+                            </mat-select>
+                            <mat-error >seleccione una cuenta de ingreso</mat-error>
+                          </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Concepto</mat-label>
+                        <input matInput placeholder="ingrese un concepto" required type="text"
+                                formControlName="concept" >
+                        <mat-error *ngIf="isValidField('concept')" >{{getErrorMessage('concept','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Importe</mat-label>
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <input matInput placeholder="importe en Bs." formControlName="amount"
+                                required type="number">
+                                
+                        <mat-error *ngIf="isValidField('amount')">{{getErrorMessage('amount','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Comentario</mat-label>
+                        <input matInput placeholder="ingrese un comentario" required type="text"
+                                formControlName="comment" >
+                        <mat-error *ngIf="isValidField('comment')" >{{getErrorMessage('comment','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider style="padding-bottom: 15px;"></mat-divider>
+        
+                    <div style="text-align: center; width: 100%;">
+                        <button mat-raised-button class="button" [disabled]="registerExpense.invalid">
+                            GUARDAR
+                        </button>
+                    </div>
+                    
+                </div>
+        
+        </div>
+        
+        </form>
+</div>
+<!-- Edit -->
+<div *ngIf="transform=='edit'">
+    <form  [formGroup]="editExpense" #formDirective="ngForm" (ngSubmit)="saveEditExpense(editExpense.value,formDirective)">
+
+        <div class="card"> 
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
+                <h2>Editar Egreso</h2>
+            </div> 
+        
+                <div style="width: 100%;">
+                    <div style="display: flex; width: 100%;">
+                        <div class="field" style="width: 50%;margin-right: 10px;">
+                            <mat-form-field appearance="outline" style="width: 100%; ">
+                                <mat-label>Fecha</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="date"
+                                       (dateInput)="addEvent( $event)" >
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                                <mat-error *ngIf="isValidField('date')" >{{getErrorMessage('date','register')}}</mat-error>
+                              </mat-form-field>
+                        </div>
+                        <div class="field" style="width: 50%;">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Mes</mat-label>
+                                <mat-select formControlName="month" >
+                            
+                                    <ng-container >
+                                        <mat-option  *ngFor="let month of months" [value]="month.name">{{month.name}}</mat-option>
+                                    </ng-container>
+                                      
+                                </mat-select>
+                                <mat-error *ngIf="isValidField('month')" >{{getErrorMessage('month','register')}}</mat-error>
+                              </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Cuenta</mat-label>
+                            <mat-select formControlName="idExpense" >
+                        
+                                <ng-container >
+                                    <mat-option  *ngFor="let expense of expenses" [value]="expense.idExpense">{{expense.expenseName}}</mat-option>
+                                </ng-container>
+                                  
+                            </mat-select>
+                            <mat-error >seleccione una cuenta de ingreso</mat-error>
+                          </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Concepto</mat-label>
+                        <input matInput placeholder="ingrese un concepto" required type="text"
+                                formControlName="concept" >
+                        <mat-error *ngIf="isValidField('concept')" >{{getErrorMessage('concept','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Importe</mat-label>
+                        <mat-icon matSuffix>attach_money</mat-icon>
+                        <input matInput placeholder="importe en Bs." formControlName="amount"
+                                required type="number">
+                                
+                        <mat-error *ngIf="isValidField('amount')">{{getErrorMessage('amount','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Comentario</mat-label>
+                        <input matInput placeholder="ingrese un comentario" required type="text"
+                                formControlName="comment" >
+                        <mat-error *ngIf="isValidField('comment')" >{{getErrorMessage('comment','register')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <mat-divider style="padding-bottom: 15px;"></mat-divider>
+        
+                    <div style="text-align: center; width: 100%;">
+                        <button mat-raised-button class="button" [disabled]="editExpense.invalid">
+                            GUARDAR
+                        </button>
+                    </div>
+                    
+                </div>
+        
+        </div>
+        
+        </form>
+</div>

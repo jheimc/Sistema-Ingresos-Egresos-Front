@@ -1,4 +1,5 @@
-<div style="text-align: end;">
+<div *ngIf="transform=='register'">
+  <div style="text-align: end;">
     <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
 </div>
 
@@ -18,3 +19,27 @@
       </button>
     </div>
   </div>
+</div>
+<!-- EDIT EXPENSE -->
+<div *ngIf="transform=='edit'">
+  <div style="text-align: end;">
+    <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
+</div>
+
+<div class="popup" [formGroup]="expenseEdit">
+    <h1>Editar cuenta de Egreso</h1>
+    <p>Ingresa el nombre de la cuenta</p>
+    <div class="field">
+        <mat-form-field  appearance="outline" style="width: 100%;">
+        <mat-label>Cuenta</mat-label>
+        <input matInput placeholder="Ingresa el nombre de la cuenta" required type="text" formControlName='expenseName'>
+        <mat-error >este campo es requerido</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="links">
+      <button class="btn-confirm" [disabled]="expenseEdit.invalid" type="submit" (click)="updateExpense(expenseEdit.value)">
+        <span >Actualizar</span>
+      </button>
+    </div>
+  </div>
+</div>

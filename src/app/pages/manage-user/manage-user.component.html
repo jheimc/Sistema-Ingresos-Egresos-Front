@@ -6,7 +6,7 @@
             <button class="btn-add" mat-raised-button (click)="openRegisterUser()"><mat-icon>add</mat-icon>Añadir Usuario</button>
         </div>
         <mat-divider></mat-divider>
-        <div  style="height: 200px; overflow: scroll; overflow-x: hidden;    ">
+        <div  style="height: 1500; overflow: scroll; overflow-x: hidden;    ">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
 
             <ng-container matColumnDef="index" >
@@ -24,10 +24,10 @@
 
                    
                     <button mat-icon-button matSuffix  matTooltip="Editar">
-                        <mat-icon style="color:#0460ca;" >edit</mat-icon>
+                        <mat-icon style="color:#0460ca;"  (click)="openEditUser(element)" >edit</mat-icon>
                     </button>
                     <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
-                        <mat-icon style="color:rgb(197, 33, 33)">person_remove</mat-icon>
+                        <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteUser(element.idUser)">person_remove</mat-icon>
                     </button>
 
                  </td>

@@ -110,14 +110,7 @@
                         <mat-error>este campo es requerido</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="field">
-                        <mat-form-field  appearance="outline" style="width: 100%;">
-                        <mat-label>Correo electronico</mat-label>
-                        <input matInput placeholder="ingrese un correo"  type="email"
-                                formControlName="email">
-                        <mat-error *ngIf="isValidFieldEdit('email')" >{{getErrorMessage2('email','edit')}}</mat-error>
-                        </mat-form-field>
-                    </div>
+                    
                     <div class="field">
                         <mat-form-field  appearance="outline" style="width: 100%;">
                         <mat-label>N° Celular</mat-label>
@@ -128,22 +121,11 @@
                     </div>
                     <div class="field">
                         <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Role</mat-label>
-                            <mat-select   (valueChange)="print($event)" formControlName="idRole">
-                                    <mat-option  *ngFor="let role of roles" [value]="role.idRole">{{role.roleName}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                    </div>
-                    <div class="field">
-                        <mat-form-field appearance="outline" style="width: 100%;">
-                            <mat-label>Sector</mat-label>
-                            <mat-select formControlName="idSector" >
-                        
-                                <ng-container >
-                                    <mat-option  *ngFor="let unit of units" [value]="unit.idSector">{{unit.sectorName}}</mat-option>
-                                </ng-container>
-                                  
-                            </mat-select>
+                            <mat-label>Fecha de expiración</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="expiryDate"
+                                   (dateInput)="addEvent( $event)" >
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
                           </mat-form-field>
                     </div>
                     <div style="text-align: center; width: 100%;">

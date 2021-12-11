@@ -21,10 +21,10 @@
 
            
             <button mat-icon-button matSuffix  matTooltip="Editar">
-                <mat-icon style="color:#0460ca;" >edit</mat-icon>
+                <mat-icon style="color:#0460ca;" (click)="openEditExpense(element)">edit</mat-icon>
             </button>
             <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
-                <mat-icon style="color:rgb(197, 33, 33)">delete_outline</mat-icon>
+                <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteExpense(element.idExpense)">delete_outline</mat-icon>
             </button>
 
          </td>

@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class SideBarComponent implements OnInit {
   open=false;
-  openDelivery=false;
+  openReport=false;
   openBuyer=false;
   user:any;
   permits:any;

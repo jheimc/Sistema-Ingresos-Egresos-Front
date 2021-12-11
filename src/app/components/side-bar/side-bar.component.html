@@ -8,6 +8,10 @@
         <mat-icon>home</mat-icon>
         <span>Inicio</span>
     </a>
+    <a mat-button class="menu-button" routerLink="/home/user" *ngIf="ROLE_USER_FINAL" >
+        <mat-icon>portrait</mat-icon>
+        <span>Perfil</span>
+    </a>
     <a mat-button class="menu-button" routerLink="/home/manage-users" *ngIf="ROLE_ADMIN" >
         <mat-icon>person</mat-icon>
         <span>Control de Usuario</span>
@@ -26,21 +30,31 @@
             <span>cuenta Egresos</span>
         </a>
     </div>
-    <a mat-button class="menu-button" *ngIf="ROLE_USER_FINAL" >
+    <a mat-button class="menu-button" *ngIf="ROLE_USER_FINAL" routerLink="/home/incomes" >
         <mat-icon>attach_money</mat-icon>
         <span>Ingresos</span>
     </a>
     
-    <a mat-button class="menu-button"  *ngIf="ROLE_USER_FINAL" >
+    <a mat-button class="menu-button"  *ngIf="ROLE_USER_FINAL" routerLink="/home/expenses" >
         <mat-icon>cloud_download</mat-icon>
         <span>Egresos</span>
     </a>
     
     
-    <a mat-button class="menu-button" *ngIf="ROLE_USER_FINAL || ROLE_ADMIN">
+    <a mat-button class="menu-button"(click)="openReport=!openReport" *ngIf="ROLE_USER_FINAL ">
         <mat-icon>summarize</mat-icon>
-        <span>Reporte General</span>
+        <span>Reportes</span>
     </a>
+    <div *ngIf="openReport" style="margin-left: 10px;" >
+        <a mat-button class="sub-menu-button" routerLink="/home/report/income">
+            <mat-icon>show_chart</mat-icon>
+            <span>Reporte Ingresos</span>
+        </a>
+        <a mat-button class="sub-menu-button" routerLink="/home/report/expense">
+            <mat-icon>show_chart</mat-icon>
+            <span>Reporte Egresos</span>
+        </a>
+    </div>
 <mat-divider></mat-divider>
     <a mat-button class="menu-button" (click)="logout()">
         <mat-icon>logout</mat-icon>

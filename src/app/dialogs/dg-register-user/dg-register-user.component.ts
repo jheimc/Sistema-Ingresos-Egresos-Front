@@ -44,19 +44,15 @@ export class DgRegisterUserComponent implements OnInit {
   editUser = this.formBuilder.group({
     name:['',[]],
     password:['',[]],
-    email:['',[Validators.pattern(this.isValidEmail)]],
     username:['',{
       validators:[Validators.required], 
       asyncValidators:[this.usernameCheckEdit()],
         updateOn: 'blur'
     }],
-    idRole:['',[]],
     telephone:['',{
       validators:[Validators.required,Validators.pattern(this.isValidNumber)],
-      asyncValidators:[this.telephoneCheckEdit()],
-      updateOn: 'blur'
     }],
-    idSector:['',[]],
+    expiryDate:['',[]],
   })
   hide = false;
   passwordGenerate:any=this.generatePassword(8);
@@ -72,16 +68,11 @@ export class DgRegisterUserComponent implements OnInit {
 
     if(this.transform=='edit'){
       this.user=this.data.user;
-      //this.fiterRoleType();
       this.editUser.get('name').setValue(this.user?.name);
-      //this.editUser.controls['password'].setValue(this.user?.password);
-      this.editUser.controls['email'].setValue(this.user?.email);
-      this.editUser.controls['username'].setValue(this.user?.userName);
+      this.editUser.controls['username'].setValue(this.user?.username);
       this.editUser.controls['password'].setValue("");
       this.editUser.controls['telephone'].setValue(this.user?.telephone);
-      this.editUser.controls['idSector'].setValue(this.user?.idSector);
-      this.editUser.controls['idRole'].setValue(this.user?.idRole);
-      console.log(this.editUser)
+      this.editUser.controls['expiryDate'].setValue(this.user?.expiryDate);
 
     }
     //this.filterUnit();
@@ -127,7 +118,6 @@ export class DgRegisterUserComponent implements OnInit {
       next:()=>{
         this.snack.open('Usuario registrada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
-        console.log("LOG >>=",user);
     
       },
       error:()=>{
@@ -137,7 +127,7 @@ export class DgRegisterUserComponent implements OnInit {
   }
   saveEdit(update,formDirective: FormGroupDirective){
 
-    
+    console.log(update)
     this.RequestService.put('http://localhost:8080/api/user/updateDataUser/'+this.user?.idUser, update)
     .subscribe({
       next:()=>{
@@ -239,10 +229,9 @@ export class DgRegisterUserComponent implements OnInit {
     )  }
     usernameCheckEdit(): AsyncValidatorFn{
       return (control: AbstractControl) => {
-      console.log(control.value)
       return this.RequestService.get('http://localhost:8080/api/user/uniqueUserName/'+control.value)
         .pipe(
-            map((result) => (result==true) ?  null : ((control.value==this.user.userName)?null:{exist:!result}))
+            map((result) => (result==true) ?  null : ((control.value==this.user.username)?null:{exist:!result}))
           );
         
       };

@@ -58,7 +58,15 @@ export class ManageUserComponent implements OnInit {
     }); 
   }
   openEditUser(user){
+    this.dialog.open(DgRegisterUserComponent,{
+      width: '60%',
+      data:{
+        user:user,
+        transform:'edit',
+      }
+    });
   }
+
 
   deleteUser(idUser){
     console.log(idUser)

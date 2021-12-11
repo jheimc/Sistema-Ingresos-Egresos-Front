@@ -1,0 +1,49 @@
+<mat-card style="width: 95%; height: 100%;">
+    <mat-card-header>
+        <mat-card-title><mat-icon>cloud_download</mat-icon> Reporte de ingresos</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <div style="display: flex; width: 100%;">
+       
+        <div class="field" style="width: 40%;margin-right: 10px;height: 30px;">
+            <mat-form-field appearance="outline" style="width: 100%;">
+                <mat-label>Seleccione gestión</mat-label>
+                <mat-select (selectionChange)="filterBy($event.value)" >
+            
+                    <ng-container >
+                        <mat-option  *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                    </ng-container>
+                      
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <a mat-button class="btn-catalog">
+            <mat-icon>print</mat-icon>
+            <span> Imprimir</span>
+          
+        </a>
+    </div>
+    <h1>Gestión {{yearSelected}}</h1>
+    <div  style=" overflow: scroll; overflow-x: scroll;    ">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
+        <ng-container  matColumnDef="accountName" >
+            <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> CUENTA  </th>
+            <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: left;"> {{element.accountName}} </td>
+            <td mat-footer-cell *matFooterCellDef="let row" style="text-align: left;"> Total General </td>
+            
+        </ng-container>
+
+        <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> {{columna.titulo}}  </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element[columna.name]}} </td>
+          <td mat-footer-cell *matFooterCellDef="let row" > {{getTotalCost(columna.name) +" Bs."}}</td>
+          
+        </ng-container>
+        
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumns" class="example-first-footer-row"></tr>
+      </table>
+    </div>
+</mat-card>

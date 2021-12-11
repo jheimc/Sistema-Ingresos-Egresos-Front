@@ -3,37 +3,43 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { DgCreateIncomeAccountComponent } from 'src/app/dialogs/dg-create-income-account/dg-create-income-account.component';
+import { DgIncomeComponent } from 'src/app/dialogs/dg-income/dg-income.component';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
-  selector: 'app-income-accounts',
-  templateUrl: './income-accounts.component.html',
-  styleUrls: ['./income-accounts.component.css']
+  selector: 'app-income-page',
+  templateUrl: './income-page.component.html',
+  styleUrls: ['./income-page.component.css']
 })
-export class IncomeAccountsComponent implements OnInit {
+export class IncomePageComponent implements OnInit {
 
   constructor(
     public dialog: MatDialog, 
     private RequestService: RequestService,
     private snack:MatSnackBar,) { }
  
-  usersResponse:any;
   user:any;
   idUser:any;
   userName:any;
   incomes:any;
-  privilegios:any;
-  displayedColumns: string[] = [ 'incomeName','registrationDate','actions'];
+  allIncomes:any;
+  displayedColumns: string[] = [ 'idIncomeUser','date','month','concept','amount','comment','incomeAccount','actions'];
   dataSource =  new MatTableDataSource<any>([]);
   columnas=[
-    {titulo:"NOMBRE DE CUENTA" ,name: "incomeName"},
-    {titulo:"FECHA DE REGISTRO" ,name: "registrationDate"},
+    {titulo:"N°" ,name: "idIncomeUser"},
+    {titulo:"FECHA" ,name: "date"},
+    {titulo:"MES",name:"month"},
+    {titulo:"CONCEPTO",name:"concept"},
+    {titulo:"IMPORTE",name:"amount"},
+    {titulo:"COMENTARIO",name:"comment"},
+    {titulo:"CUENTA",name:"incomeAccount"},
 
   ];
   
 
   ngOnInit(): void {
     this.loadDataUser();
+    this.loadIncomesByUser();
     this.loadIncomeAccounts();
     
   }
@@ -43,39 +49,32 @@ export class IncomeAccountsComponent implements OnInit {
   loadIncomeAccounts(){
     this.RequestService.get('http://localhost:8080/api/income/allIncomes/'+this.user.idUser).subscribe(r=>{
       this.incomes=r;
-      this.dataSource.data=this.incomes;
     })
   }
-
+  loadIncomesByUser(){
+    this.RequestService.get('http://localhost:8080/api/incomeUser/allIncomesByUser/'+this.user.idUser).subscribe(r=>{
+      this.allIncomes=r;
+      this.dataSource.data=this.allIncomes;
+    })
+  }
   openIncome(){
-    this.dialog.open(DgCreateIncomeAccountComponent,{
+    this.dialog.open(DgIncomeComponent,{
       width: '60%',
       data:{
         user:this.user,
+        incomesList:this.incomes,
         transform:"register"
       }
     }); 
   }
   openEditIncome(income){
-    this.dialog.open(DgCreateIncomeAccountComponent,{
+    this.dialog.open(DgIncomeComponent,{
       width: '60%',
       data:{
         income:income,
+        incomesList:this.incomes,
         transform:'edit',
       }
-    });
-  }
-  deleteIncome(idIncome){
-    console.log(idIncome)
-    this.RequestService.put('http://localhost:8080/api/income/deleteIncome/'+idIncome,{})
-    .subscribe({
-      error:()=>{
-        this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        window.location.reload();
-      },
-      /* error:()=>{
-        this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
-      } */
     });
   }
 }

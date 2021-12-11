@@ -37,6 +37,13 @@ import { IncomeAccountsComponent } from './pages/income-accounts/income-accounts
 import { ExpenseAccountsComponent } from './pages/expense-accounts/expense-accounts.component';
 import { DgCreateIncomeAccountComponent } from './dialogs/dg-create-income-account/dg-create-income-account.component';
 import { DgCreateExpenseAccountComponent } from './dialogs/dg-create-expense-account/dg-create-expense-account.component';
+import { IncomePageComponent } from './pages/income-page/income-page.component';
+import { ExpensePageComponent } from './pages/expense-page/expense-page.component';
+import { DgIncomeComponent } from './dialogs/dg-income/dg-income.component';
+import { DgExpenseComponent } from './dialogs/dg-expense/dg-expense.component';
+import { ReportIncomePageComponent } from './pages/report-income-page/report-income-page.component';
+import { ReportExpensePageComponent } from './pages/report-expense-page/report-expense-page.component';
+import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +57,14 @@ import { DgCreateExpenseAccountComponent } from './dialogs/dg-create-expense-acc
     IncomeAccountsComponent,
     ExpenseAccountsComponent,
     DgCreateIncomeAccountComponent,
-    DgCreateExpenseAccountComponent
+    DgCreateExpenseAccountComponent,
+    IncomePageComponent,
+    ExpensePageComponent,
+    DgIncomeComponent,
+    DgExpenseComponent,
+    ReportIncomePageComponent,
+    ReportExpensePageComponent,
+    UserProfilePageComponent
   ],
   imports: [
     BrowserModule,

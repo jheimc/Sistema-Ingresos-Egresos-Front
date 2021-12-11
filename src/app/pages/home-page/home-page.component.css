@@ -1,0 +1,36 @@
+.example-card {
+    max-width: 250px;
+    width: 200px;
+    margin-right:25px;
+    margin-bottom: 10px;
+  }
+  .cards{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+  }
+  .button{
+      width: 100%;
+  }
+  .icon{
+      background-color: rgb(73, 151, 240);
+      width: 40px;
+      height: 40px;
+      padding-top: 6px;
+      padding-right: 3px;
+  }
+  .data{
+      width: 80%;
+      padding-top: 10px;
+  }
+  mat-icon{
+      font-size: 30px;
+      color: white;    
+  }
+  mat-card-title{
+      color: rgb(73, 151, 240);
+      font-size: 14px;
+  }
+  mat-card-subtitle{
+    font-size: 12px;
+}
