@@ -23,6 +23,7 @@ export class DgIncomeComponent implements OnInit {
     incomes:any;
     income:any;
     user:any;
+    month:any;
     months:any[]=[
     {name:"Enero"},
     {name:"Febrero"},
@@ -135,9 +136,22 @@ export class DgIncomeComponent implements OnInit {
       )  }
 
       addEvent(event: MatDatepickerInputEvent<Date>) {
-        const Date=this.registerIncome.get('date').value;
-      const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-      this.registerIncome.get('date').setValue(date)
+        if(this.transform=='register'){
+          const Date=this.registerIncome.get('date').value;
+          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+          this.registerIncome.get('date').setValue(date)
+          this.month=event.value.getMonth()
+          var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+            this.registerIncome.get('month').setValue(months[this.month])
+        }else{
+          const Date=this.editIncome.get('date').value;
+          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+          this.editIncome.get('date').setValue(date)
+          this.month=event.value.getMonth()
+          var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+            this.editIncome.get('month').setValue(months[this.month])
+        }
+        
       }
 
      
