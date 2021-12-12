@@ -8,6 +8,11 @@
     font-size: 0.7rem;
     color: lightgray;
 }
+.expiry{
+    margin-top: 2px;
+    font-size: 0.7rem;
+    color: rgb(218, 194, 60);
+}
 a{
     color: white;
 }

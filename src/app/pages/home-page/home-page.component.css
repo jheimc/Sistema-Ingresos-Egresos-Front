@@ -34,3 +34,93 @@
   mat-card-subtitle{
     font-size: 12px;
 }
+.mat-form-field {
+    font-size: initial;
+}
+h1{
+    color:#575757;
+    font-family:Montserrat;
+    font-weight:800;
+    line-height:25px;
+    margin:15px 0px 3px;
+  }
+  #container{
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding-top: 20px;
+    height: 575px;
+    }
+    #bg-container{
+    width: 100%;
+    text-align: center;
+    z-index:0;
+    }
+    #bg-container img{
+    width: 20%;
+    
+    }
+    #content-container{
+    width: 100%;
+    text-align: center;
+    z-index:1;
+    }
+    #content-container h1{
+    color: #002b5c;
+    font-weight: 900;
+    font-size: 60px;
+    line-height: 0.9em;
+    margin-bottom: 30px;
+    }
+    #content-container h4{
+        color:#575757;
+    font-family:Montserrat;
+    font-weight:800;
+    line-height:25px;
+    margin:15px 0px 3px;
+        }
+    #content-container p{
+    line-height: 1.8em;
+    font-weight: 500;
+    }
+    #content-container button:hover{
+    opacity: 0.9;
+    }
+    @media screen and (max-width:500px) {
+        #container{
+            overflow: hidden;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 20px;
+            height: 575px;
+            }
+            #bg-container{
+            width: 100%;
+            z-index:0;
+            }
+            #bg-container img{
+            width: 80%;
+            height: 40%;
+            
+            }
+            #content-container h1{
+            color: #002b5c;
+            font-weight: 900;
+            font-size: 40px;
+            line-height: 0.9em;
+            margin-bottom: 30px;
+            }
+            #content-container h4{
+                color:#757272;
+                font-weight: 900;
+                font-size: 18px;
+                line-height: 0.9em;
+                margin-bottom: 30px;
+                }
+            #content-container p{
+            line-height: 1.8em;
+            font-weight: 500;
+            }
+    }

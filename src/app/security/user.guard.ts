@@ -17,7 +17,7 @@ export class UserGuard implements CanActivate {
     
      if(!cookie){
        localStorage.clear()
-      this.router.navigate(['/login','login']).then(() => {
+      this.router.navigate(['/login','/login']).then(() => {
         window.location.reload();
       });
     }else{

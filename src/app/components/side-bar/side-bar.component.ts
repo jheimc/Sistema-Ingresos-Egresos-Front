@@ -13,6 +13,7 @@ export class SideBarComponent implements OnInit {
   openBuyer=false;
   user:any;
   permits:any;
+  expiryMessage:any;
   ROLE_ADMIN:boolean;
   ROLE_USER_FINAL:boolean;
   constructor(
@@ -34,6 +35,7 @@ export class SideBarComponent implements OnInit {
     loadDataUser(){
       this.user=JSON.parse(localStorage.getItem("user"))
       this.permits=JSON.parse(localStorage.getItem("permits"))
+      this.expiryMessage=JSON.parse(localStorage.getItem("expiryMessage"))
       this.loadPermits()
      
     }

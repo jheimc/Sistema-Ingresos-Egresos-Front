@@ -3,6 +3,7 @@
     flex-basis:0%;
     font-size:12.0012px;
     line-height:18.0018px;
+    margin-left: 30px;
 }
 .button{
     color:#424242;
@@ -79,6 +80,8 @@ span{
     padding:0px 10px 9px 0px;
     text-align:left;
     font-size: 17px;
+    width: 100%;
+    max-width: 100%;
 }
 .subdata{
     color:#9e9d9d;
@@ -87,6 +90,17 @@ span{
     margin:0px 0px 0px 50px;
     text-align:left;
     font-size: 17px;
+    max-width: 100%;
+    -ms-word-break: break-all;
+  word-break: break-all;
+  word-break: break-word;
+  /* Sólo WebKit -NO DOCUMENTADO */
+  -ms-hyphens: auto;
+  /* Guiones para separar en sílabas */
+  -moz-hyphens: auto;
+  /*  depende de lang en <html>      */
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 .btn-create{
     color: #fff;

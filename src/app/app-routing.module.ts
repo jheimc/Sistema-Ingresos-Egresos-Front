@@ -9,6 +9,7 @@ import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ManageUserComponent } from './pages/manage-user/manage-user.component';
 import { ReportExpensePageComponent } from './pages/report-expense-page/report-expense-page.component';
 import { ReportIncomePageComponent } from './pages/report-income-page/report-income-page.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
 import { UserGuard } from './security/user.guard';
 
@@ -24,6 +25,7 @@ const routes: Routes = [
   {path:'home/report/expense',component:ReportExpensePageComponent,canActivate:[UserGuard]},
   {path:'home/report/income',component:ReportIncomePageComponent,canActivate:[UserGuard]},
   {path:'home/user',component:UserProfilePageComponent,canActivate:[UserGuard]},
+  {path:'home/settings',component:SettingsComponent,canActivate:[UserGuard]},
 ];
 
 @NgModule({

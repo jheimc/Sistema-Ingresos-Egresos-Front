@@ -44,7 +44,14 @@ import { DgExpenseComponent } from './dialogs/dg-expense/dg-expense.component';
 import { ReportIncomePageComponent } from './pages/report-income-page/report-income-page.component';
 import { ReportExpensePageComponent } from './pages/report-expense-page/report-expense-page.component';
 import { UserProfilePageComponent } from './pages/user-profile-page/user-profile-page.component';
-
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DgUpdateUserComponent } from './dialogs/dg-update-user/dg-update-user.component';
+import { DgForgetPasswordComponent } from './dialogs/dg-forget-password/dg-forget-password.component';
+import { DgRestartPasswordComponent } from './dialogs/dg-restart-password/dg-restart-password.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { DgUpdateWelcomeMessageComponent } from './dialogs/dg-update-welcome-message/dg-update-welcome-message.component';
+import { DgUpdateImageComponent } from './dialogs/dg-update-image/dg-update-image.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -64,7 +71,13 @@ import { UserProfilePageComponent } from './pages/user-profile-page/user-profile
     DgExpenseComponent,
     ReportIncomePageComponent,
     ReportExpensePageComponent,
-    UserProfilePageComponent
+    UserProfilePageComponent,
+    DgUpdateUserComponent,
+    DgForgetPasswordComponent,
+    DgRestartPasswordComponent,
+    SettingsComponent,
+    DgUpdateWelcomeMessageComponent,
+    DgUpdateImageComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +102,8 @@ import { UserProfilePageComponent } from './pages/user-profile-page/user-profile
     HttpClientModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxChartsModule,
+    MaterialFileInputModule
   ],
   providers: [CookieService,RequestService,interceptorProvider],
   bootstrap: [AppComponent]

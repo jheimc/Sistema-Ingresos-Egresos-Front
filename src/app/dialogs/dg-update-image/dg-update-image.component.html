@@ -1,0 +1,30 @@
+<div style="text-align: center;">
+    <h2>Actualizar Imagen del sistema</h2>
+    <div class="image">
+        <img mat-card-image [src]='"data:image/jpg;base64,"+image' alt="Photo of logo">
+       
+    </div>
+    <div style="width: 100%;text-align: center;" >
+        <p *ngIf="dataFile!=null && replace==false" >Ya se subio un archivo.</p>
+            
+        <mat-form-field class="container__field" style="width: 70%; font-size: 14px; height: 100px;" appearance="outline"  >
+            
+        <mat-label style="font-size: 16px;"><mat-icon style="font-size: 20px;">file</mat-icon> Añadir Imagen</mat-label>
+            <ngx-mat-file-input [disabled]="disalbedInput()" [accept]="'.jpg'" (change)="onFileSelected($event)" 
+            #removableInput   placeholder="ingrese la nueva imagen del producto">
+            </ngx-mat-file-input>
+            <button mat-icon-button  matSuffix *ngIf="!removableInput.empty " (click)="removableInput.clear($event)">
+              <mat-icon >clear</mat-icon>
+            </button>
+            
+          </mat-form-field>
+    </div>
+    <div style="text-align: center; width: 100%;">
+        <!-- <button mat-raised-button type="submit" class="btn-confirm"(click)="updateImage()">
+            Guardar
+        </button> -->
+        <a mat-button class="btn-confirm"[disabled]="imageForm.invalid"(click)="updateImage()">
+            <span> Actualizar</span>
+          </a>
+    </div>
+</div>

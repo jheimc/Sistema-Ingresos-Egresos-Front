@@ -1,4 +1,5 @@
-<div class="cards">
+<div *ngIf="ROLE_USER_FINAL; else otherUser">
+  <div class="cards" >
     <mat-card class="example-card">
         <mat-card-content style="display: flex;">
             <div class="icon">
@@ -64,3 +65,58 @@
         </mat-card-actions>
       </mat-card>
 </div>
+<div class="chart">
+  <mat-card style="width: 95%; height: 100%;">
+    <mat-card-header>
+      <mat-card-title style="color: #575757;"><mat-icon style="color: #575757;font-size: 25px;">insert_chart_outlined</mat-icon>  Gráfica</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+   
+    <mat-card-content style="height: 500px;">
+      <div class="field" style="width: 40%;margin-right: 10px;height: 65px;">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-label>Seleccione gestión</mat-label>
+            <mat-select (selectionChange)="filterBy($event.value)" >
+        
+                <ng-container >
+                    <mat-option  *ngFor="let year of years" [value]="year">{{year}}</mat-option>
+                </ng-container>
+                  
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <h1>Gestión {{yearSelected}}</h1>
+    <div #ContainerRef style="width: 100%;max-width: 100%;">
+      <ngx-charts-bar-vertical-2d
+      (window:resize)="resizeChart(ContainerRef.offsetWidth)"
+      [view]="view"
+      [scheme]="colorScheme"
+      [results]="multi"
+      [gradient]="gradient"
+      [xAxis]="showXAxis"
+      [yAxis]="showYAxis"
+      [legend]="showLegend"
+      [showXAxisLabel]="showXAxisLabel"
+      [showYAxisLabel]="showYAxisLabel"
+      [xAxisLabel]="xAxisLabel"
+      [yAxisLabel]="yAxisLabel"
+      [legendTitle]="legendTitle">
+  </ngx-charts-bar-vertical-2d>
+    </div>
+       
+    </mat-card-content>
+  </mat-card>
+</div>
+</div>
+
+<ng-template #otherUser>
+  
+    <div id="content-container">
+       <h1>{{dataConfiguration?.welcomeMessage}}</h1>
+       <h4>Sistema de Ingresos y egresos</h4>
+    </div>
+    <div id="bg-container">
+       <img [src]='"data:image/jpg;base64,"+dataConfiguration?.image'> 
+    </div>
+ 
+</ng-template>

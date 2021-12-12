@@ -1,7 +1,7 @@
 <img src=""  class="avatar mat-elevation-z8">
-<h4 class="name">username</h4>
-<p class="designation">Admin</p>
-
+<h4 class="name">{{user?.name}}</h4>
+<p class="designation">{{user?.userName}}</p>
+<p class="expiry"*ngIf="ROLE_USER_FINAL && expiryMessage!=''"><mat-icon style="font-size: medium;">warning_amber</mat-icon>{{expiryMessage}}</p>
 <mat-divider></mat-divider>
 
     <a mat-button class="menu-button" routerLink="/home">
@@ -56,6 +56,10 @@
         </a>
     </div>
 <mat-divider></mat-divider>
+<a mat-button class="menu-button" routerLink="/home/settings" *ngIf="ROLE_ADMIN">
+    <mat-icon>settings</mat-icon>
+    <span>Configuraciones</span>
+</a>
     <a mat-button class="menu-button" (click)="logout()">
         <mat-icon>logout</mat-icon>
         <span>Cerrar Sesión</span>

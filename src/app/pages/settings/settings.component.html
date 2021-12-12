@@ -1,0 +1,45 @@
+<div class="manage">
+    <a mat-button class="btn-catalog" routerLink="/home">
+        
+        <mat-icon>home</mat-icon>
+        <span>Ir a Home </span>
+    </a>
+    <h3>CONFIGURACIONES DEL SISTEMA</h3>
+    <div class="personal-data">
+        <mat-icon style="font-size: 45px;">edit_note</mat-icon>
+        <h1>Mensaje de Bienvenida</h1>
+        
+    </div>
+    <div style="padding: 20px; margin-left: 45px; max-width:100% ;">
+        <li class="data">Mensaje:
+            <span class="subdata">{{dataConfiguration?.welcomeMessage}}</span>
+        </li>
+        
+    </div>
+    <div style="display: flex;padding: 20px;max-width:100% ">
+        <li>
+            <a mat-button (click)="openUpdateWelcomeMessage()"><span>Actualizar Mensaje</span></a>
+        </li><!-- 
+        <li>
+            <a mat-button><span>Cambia tu contraseña</span></a>
+        </li> -->
+    </div>
+    <!-- Distancia de busqueda -->
+    <div class="personal-data">
+        <mat-icon style="font-size: 45px;">polymer</mat-icon>
+        <h1>Logo del sistema</h1>
+        
+    </div>
+    <div style="padding: 20px; margin-left: 45px; height: 40px;overflow:scroll">
+        <li class="data ">imagen:
+            <span class="subdata">{{dataConfiguration?.image}}</span>
+        </li>
+        
+    </div>
+    <div style="display: flex;padding: 20px;">
+        <li>
+            <a mat-button (click)="openUpdateImage()" ><span>Actualizar Imagen</span></a>
+        </li>
+    </div>
+
+</div>

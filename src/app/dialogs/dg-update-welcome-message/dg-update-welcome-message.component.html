@@ -1,0 +1,24 @@
+<div class="position-button">
+    <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
+</div>
+
+<div class="popup" [formGroup]="update">
+    <h1>Actualizar Mensaje de busqueda</h1>
+    <p>A continuacion escribe el nuevo mensaje:</p>
+    <div class="field">
+        <mat-form-field  appearance="outline" style="width: 100%;">
+        <mat-label>Distancia de búsqueda</mat-label>
+        <input matInput placeholder="Ingrese el mensaje de bienvenida " required type="text" formControlName='welcomeMessage'>
+        <mat-error >este campo es requerido</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="links">
+      <a mat-button class="btn-confirm"[disabled]="update.invalid"(click)="updateWelcomeMessage(update.get('welcomeMessage').value)">
+        <span *ngIf="activateSpinner==undefined"> Actualizar</span>
+        <span *ngIf="activateSpinner"> Actualizando</span>
+        <span *ngIf="activateSpinner==false">Mensaje Actualizado</span>
+        <mat-icon><mat-spinner *ngIf="activateSpinner" [diameter]="30"></mat-spinner></mat-icon>
+        <mat-icon *ngIf="activateSpinner==false">done</mat-icon>
+      </a>
+    </div>
+  </div>

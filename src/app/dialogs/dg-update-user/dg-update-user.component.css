@@ -1,0 +1,14 @@
+.btn-confirm{
+    background-color:#3b3b3b;
+    border-radius:5px;
+    color:#ffffff;
+    font-family:Montserrat;
+    font-weight:700;
+    line-height:24px;
+    padding:12px 0px;
+    text-align:center;
+    width: 100%;
+}
+::ng-deep .snackSuccess {
+    background-color: #41a812;
+  }

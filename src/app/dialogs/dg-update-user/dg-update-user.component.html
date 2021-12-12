@@ -1,0 +1,61 @@
+<div >
+    <form  [formGroup]="editUser" #formDirective="ngForm" (ngSubmit)="saveEdit(editUser.value,formDirective)">
+
+        <div class="card" style="height: 560px;"> 
+            <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
+                <h2>Actualizar datos</h2>
+            </div> 
+        
+                <div style="width: 100%;">
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput placeholder="ingres nombre de usuario" readonly formControlName="finalUserName"
+                                 type="text">
+                        
+                        <mat-error >este campo es requerido</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Nombre de usuario</mat-label>
+                        <input matInput placeholder="ingrese un nick"  type="text"
+                                formControlName="username" >
+                        <mat-error *ngIf="isValidFieldEdit('username')" >{{getErrorMessage('username','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Contraseña</mat-label>
+                        <input matInput [type]="hide ? 'password' : 'text'" placeholder="ingrese su contraseña" 
+                                 formControlName="password" >
+                        <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                        
+                        <mat-error *ngIf="isValidFieldEdit('telephone')" >{{getErrorMessage('password','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="field">
+                        <mat-form-field  appearance="outline" style="width: 100%;">
+                        <mat-label>Telefono</mat-label>
+                        <input matInput placeholder="ingres su contraseña" formControlName="telephone"
+                                 type="text">
+                        
+                        <mat-error *ngIf="isValidFieldEdit('telephone')" >{{getErrorMessage('telephone','edit')}}</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div style="text-align: center; width: 100%;">
+                        <button mat-raised-button class="btn-confirm"[disabled]="editUser.invalid" >
+                            <span *ngIf="activateSpinner==undefined"> ACTUALIZAR</span>
+                    <span *ngIf="activateSpinner">Actualizando datos</span>
+                    <span *ngIf="activateSpinner==false"> Datos actualizados</span>
+                    <mat-icon><mat-spinner *ngIf="activateSpinner" [diameter]="30"></mat-spinner></mat-icon>
+                    <mat-icon *ngIf="activateSpinner==false">done</mat-icon>
+                        </button>
+                    </div>
+                </div>
+        </div>
+        
+    </form>
+</div>

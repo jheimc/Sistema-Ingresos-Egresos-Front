@@ -1,6 +1,6 @@
 <div id="container">
     <div id="content-container">
-       <h1>¡Bienvenid@!</h1>
+       <h1>{{dataConfiguration?.welcomeMessage}}</h1>
        <form class="main" [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onLogin(loginForm.value,formDirective)">
 
 
@@ -30,7 +30,7 @@
                         <mat-error>este campo es requerido</mat-error>
                         </mat-form-field>
                     </div>
-                    <p><a mat-button >¿Has olvidado tu contraseña?</a></p>
+                    <p><a mat-button (click)="openForgetPassword()">¿Has olvidado tu contraseña?</a></p>
                     <div style="text-align: center; width: 100%; " >
                         <button mat-raised-button style="background-color:#212F3C; width: 100%; color: white;" type="submit"> 
                             INICIAR SESION
@@ -45,7 +45,7 @@
     </form>
     </div>
     <div id="bg-container">
-       <img src="./../../../assets/ingresos-egresos-3.png"> 
+       <img [src]='"data:image/jpg;base64,"+dataConfiguration?.image'> 
     </div>
  </div>
 

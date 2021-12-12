@@ -3,6 +3,7 @@ import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { DgForgetPasswordComponent } from 'src/app/dialogs/dg-forget-password/dg-forget-password.component';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -27,9 +28,14 @@ export class LoginPageComponent implements OnInit {
       private cookieService: CookieService,
       private router: Router,
       public dialog: MatDialog,
-    ) { }
+    ) { 
+      this.loadDataConfigurations();
+    }
     hide=true;
+    expiryMessage:string;
+    dataConfiguration:any;
     ngOnInit(): void {
+      
       /* localStorage.clear()
       this.cookieService.deleteAll(); */
     }
@@ -52,16 +58,16 @@ export class LoginPageComponent implements OnInit {
             this.idUser=respuesta.idFinalUser;
           }
           
-    
+          this.expiryMessage=respuesta.expiryMessage;
           this.userName=respuesta.userName;
           console.log(this.user)
-          this.user={idUser:this.idUser,userName:this.userName,}
+          this.user={idUser:this.idUser,userName:this.userName,name:respuesta.name}
           this.saveDataUser(respuesta.roles);
           //this.sendRoute(respuesta.identifier)
           
           this.router.navigate(['/']).then(() => {
             window.location.reload();
-          });
+          }); 
          // window.location.reload()
           
          },
@@ -76,8 +82,21 @@ export class LoginPageComponent implements OnInit {
     saveDataUser(roles:any){
       localStorage.setItem("user",JSON.stringify(this.user));
       localStorage.setItem("permits",JSON.stringify(roles));
+      localStorage.setItem("expiryMessage",JSON.stringify(this.expiryMessage));
     }
+    openForgetPassword(){
+      this.dialog.open(DgForgetPasswordComponent,{
+        width: '60%',
+        data: { }
+        });
     
+  }
+  loadDataConfigurations(){
+    this.RequestService.get("http://localhost:8080/api/setting/getSetting").subscribe(r=>{
+    //console.log(r)
+    this.dataConfiguration=r
+    })
+  }
   }
   
 

@@ -37,6 +37,8 @@ export class DgRegisterUserComponent implements OnInit {
     password:['',[Validators.required]],
     telephone:['',{
       validators:[Validators.required,Validators.pattern(this.isValidNumber)],
+      asyncValidators:[this.telephoneCheck()],
+      updateOn: 'blur'
     }],
     expiryDate:['',[Validators.required]]
 
@@ -51,6 +53,8 @@ export class DgRegisterUserComponent implements OnInit {
     }],
     telephone:['',{
       validators:[Validators.required,Validators.pattern(this.isValidNumber)],
+      asyncValidators:[this.telephoneCheckEdit()],
+      updateOn: 'blur'
     }],
     expiryDate:['',[]],
   })
@@ -79,12 +83,6 @@ export class DgRegisterUserComponent implements OnInit {
     setTimeout(() => {  return this.destroy=false; }, 20000);
   }
   
-  
-
-  
-  
-
-
    generatePassword(passwordLength) {
     var numberChars = "0123456789";
     var upperChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -164,25 +162,11 @@ export class DgRegisterUserComponent implements OnInit {
       
     };
   }
-  getErrorMessageEmail(field: string,funct:string):string{
-    let message;
-    if(funct=='register'){
-      if(this.registerUser.get(field).errors.required){
-        message="Campo email es requerido"
-      }else if(this.registerUser.get(field).hasError('pattern')){
-        message="El email no es valido"
-      }
-    }else if(funct=='edit'){
-      if(this.editUser.get(field).hasError('pattern')){
-        message="El email no es valido"
-      }
-    }
-    return message
-  }
+  
   getErrorMessageNumber(field: string,funct:string):string{
     let message;
     if(funct=='register'){
-      if(this.registerUser?.get(field).errors.required){
+      if(this.registerUser?.get(field).errors?.required){
         message="Campo celular es requerido"
       }else if(this.registerUser?.get(field).hasError('pattern')){
         message="El numero de celular no es valido"

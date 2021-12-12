@@ -1,0 +1,42 @@
+.position-button{
+    text-align: end;
+}
+h1{
+    color:#002b5c;
+    font-family:Montserrat;
+    font-size:21px;
+    font-weight:700;
+    line-height:25.2px;
+    margin:0px 0px 7px;
+    text-align: center;
+}
+
+
+.links{
+    color:#424242;
+    font-size:12.0012px;
+    line-height:18.0018px;
+    padding:0px 21px 15px;
+    width: 90%;
+}
+.btn-confirm{
+    background-color:#3b3b3b;
+    border-radius:5px;
+    color:#ffffff;
+    font-family:Montserrat;
+    font-weight:700;
+    line-height:24px;
+    padding:12px 0px;
+    text-align:center;
+    width: 100%;
+}
+p{
+    color:#696969;
+    font-family:Montserrat;
+    font-size:15px;
+    line-height:22.5px;
+    margin:0px 0px 9px;
+}
+::ng-deep .snackSuccess {
+    background-color: #41a812;
+  }
