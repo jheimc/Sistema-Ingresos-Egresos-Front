@@ -2,6 +2,8 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -20,14 +22,18 @@ export class DgUpdateUserComponent implements OnInit {
     private RequestService:RequestService,
     private formBuilder:FormBuilder,
     private snack:MatSnackBar,
+    public cookieService:CookieService,
+    private router:Router
   ) { }
   hide = false;
-  activateSpinner:boolean
+  activateSpinner:boolean;
+  changeUsername:boolean;
   private isValidUserName:any=/^[a-zA-Z0-9]+$/;
   private isValidNumber="([6-7]{1})([0-9]{7})"
   editUser = this.formBuilder.group({
+    name:['',[]],
     password:['',{
-      validators:[Validators.required,]
+      validators:[]
     }],
     telephone:['',{
       validators:[Validators.required,Validators.pattern(this.isValidNumber)],
@@ -42,13 +48,9 @@ export class DgUpdateUserComponent implements OnInit {
   })
   
   user=this.data.user;
-
   ngOnInit(): void {
     this.user=this.data.user;
-      //this.fiterRoleType();
-      console.log(this.user)
-      this.editUser.controls['finalUserName'].setValue(this.user?.finalUserName);
-      //this.editUser.controls['password'].setValue(this.user?.password);
+      this.editUser.controls['name'].setValue(this.user?.name);
       this.editUser.controls['username'].setValue(this.user?.username);
       this.editUser.controls['telephone'].setValue(this.user?.telephone);
       this.editUser.controls['password'].setValue(this.user?.password);
@@ -58,7 +60,7 @@ export class DgUpdateUserComponent implements OnInit {
   saveEdit(update,formDirective: FormGroupDirective){
     this.activateSpinner=true;
     if(update.username==this.user.username){
-      update.userName=""
+      update.username=""
     }
     if(update.password==this.user.password){
       update.password=""
@@ -66,19 +68,23 @@ export class DgUpdateUserComponent implements OnInit {
     if(update.telephone==this.user.telephone){
       update.telephone=""
     }
-    if(update.finalUserName==this.user.finalUserName){
-      update.finalUserName=""
+    if(update.username!=""){
+      this.changeUsername=true;
     }
-    console.log(update)
-    this.RequestService.put('http://localhost:8080/api/user/updateDataFinalUser/'+this.user?.idUser, update)
+    this.RequestService.put('http://localhost:8080/api/user/updateDataFinalUser/'+this.data.idUser, update)
     .subscribe({
       next:(r:any)=>{
-        console.log(r)
-        
         this.snack.open('Usuario actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        //window.location.reload()
+        if(this.changeUsername){
+          this.cookieService.delete('token','/','localhost',false,'Lax')
+          localStorage.clear()
+          this.router.navigate(['/login']).then(() => {
+            window.location.reload();
+          });
+        }else{
+          window.location.reload()
+        }
         
-        //window.location.reload();
       },
       error:()=>{
         this.snack.open('Fallo al actualizar el usuario','CERRAR',{duration:5000})
@@ -101,7 +107,6 @@ export class DgUpdateUserComponent implements OnInit {
   telephoneCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      console.log(control.value)
       return this.RequestService.get('http://localhost:8080/api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : ((control.value==this.user.telephone)?null:{exist:!result}))

@@ -10,7 +10,7 @@
                     <div class="field">
                         <mat-form-field  appearance="outline" style="width: 100%;">
                         <mat-label>Nombre</mat-label>
-                        <input matInput placeholder="ingres nombre de usuario" readonly formControlName="finalUserName"
+                        <input matInput placeholder="ingres nombre de usuario" readonly formControlName="name"
                                  type="text">
                         
                         <mat-error >este campo es requerido</mat-error>
@@ -40,7 +40,7 @@
                         <mat-form-field  appearance="outline" style="width: 100%;">
                         <mat-label>Telefono</mat-label>
                         <input matInput placeholder="ingres su contraseña" formControlName="telephone"
-                                 type="text">
+                                 type="number">
                         
                         <mat-error *ngIf="isValidFieldEdit('telephone')" >{{getErrorMessage('telephone','edit')}}</mat-error>
                         </mat-form-field>

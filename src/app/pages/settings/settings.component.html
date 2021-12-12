@@ -30,11 +30,14 @@
         <h1>Logo del sistema</h1>
         
     </div>
-    <div style="padding: 20px; margin-left: 45px; height: 40px;overflow:scroll">
+    <div style="padding: 20px; margin-left: 45px;">
         <li class="data ">imagen:
-            <span class="subdata">{{dataConfiguration?.image}}</span>
+           
         </li>
-        
+        <div class="image">
+            <img mat-card-image [src]='"data:image/jpg;base64,"+dataConfiguration?.image' alt="Photo of logo">
+           
+        </div>
     </div>
     <div style="display: flex;padding: 20px;">
         <li>

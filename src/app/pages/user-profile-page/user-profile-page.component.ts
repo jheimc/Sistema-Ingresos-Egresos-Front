@@ -26,7 +26,7 @@ export class UserProfilePageComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadDataUser(){
-    this.RequestService.get('http://localhost:8080/api/finalUser/userFinalData/'+this.user.idUser)
+    this.RequestService.get('http://localhost:8080/api/user/getDataUser/'+this.user.idUser)
      .subscribe(r=>{
        console.log(r);
        this.userData = r;
@@ -35,7 +35,7 @@ export class UserProfilePageComponent implements OnInit {
   openDialogUpdate(){
     this.dialog.open(DgUpdateUserComponent,{
       width: '50%',
-      data: { user:this.userData}
+      data: { user:this.userData, idUser:this.user.idUser}
       });
   }
 }

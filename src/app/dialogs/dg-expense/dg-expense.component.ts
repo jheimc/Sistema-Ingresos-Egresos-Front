@@ -91,7 +91,7 @@ export class DgExpenseComponent implements OnInit {
     .subscribe({
       next:()=>{
         this.snack.open('Egreso actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        //window.location.reload();
+        window.location.reload();
       },
       error:()=>{
         this.snack.open('Fallo al actualizar el egreso','CERRAR',{duration:5000})
