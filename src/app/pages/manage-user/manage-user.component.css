@@ -1,5 +1,5 @@
 .card {
-    width: 100%;
+    width: 90%;
     height: 100%;
     max-width: 100%;
     padding: 15px;
@@ -9,13 +9,19 @@
     justify-content: space-between;
     margin-bottom: 15px;
     margin-top: 15px;
-    margin-right: 130px;
+    
   }
   .btn-add {
     background-color: #212F3C;
     color: white;
+    width:max-content;
+    max-width: max-content;
+    flex-wrap:wrap;
   }
-  
+  .mat-raised-button {
+    min-width: max-content;
+  }
+
   .container-table {
     justify-content: center;
     margin: auto;

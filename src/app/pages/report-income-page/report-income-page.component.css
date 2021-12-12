@@ -41,3 +41,6 @@ tr.mat-footer-row {
     font-weight: bold;
     background-color: #ebebeb;
   }
+  .mat-cell, .mat-footer-cell {
+    font-size: 12px;
+}

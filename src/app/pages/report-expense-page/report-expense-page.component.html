@@ -17,7 +17,7 @@
                 </mat-select>
               </mat-form-field>
         </div>
-        <a mat-button class="btn-catalog">
+        <a mat-button class="btn-catalog" (click)="printReport()">
             <mat-icon>print</mat-icon>
             <span> Imprimir</span>
           
@@ -34,8 +34,8 @@
         </ng-container>
 
         <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
-          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> {{columna.titulo}}  </th>
-          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element[columna.name]}} </td>
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 80px; font-weight: bold;"> {{columna.titulo}}  </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 50px;text-align: center;"> {{element[columna.name]}} </td>
           <td mat-footer-cell *matFooterCellDef="let row" > {{getTotalCost(columna.name) +" Bs."}}</td>
           
         </ng-container>

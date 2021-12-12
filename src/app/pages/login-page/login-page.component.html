@@ -1,7 +1,7 @@
 <div id="container">
     <div id="content-container">
        <h1>{{dataConfiguration?.welcomeMessage}}</h1>
-       <form class="main" [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onLogin(loginForm.value,formDirective)">
+       <form  [formGroup]="loginForm" #formDirective="ngForm" (ngSubmit)="onLogin(loginForm.value,formDirective)">
 
 
         <mat-card class="mat-elevation-z5" style="width: 100%; height: auto;">
