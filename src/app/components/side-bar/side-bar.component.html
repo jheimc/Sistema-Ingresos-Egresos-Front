@@ -60,7 +60,7 @@
     <mat-icon>settings</mat-icon>
     <span>Configuraciones</span>
 </a>
-    <a mat-button class="menu-button" (click)="logout()">
+    <a mat-button class="menu-button" (click)="logout()" *ngIf="ROLE_USER_FINAL || ROLE_ADMIN">
         <mat-icon>logout</mat-icon>
         <span>Cerrar Sesión</span>
     </a>

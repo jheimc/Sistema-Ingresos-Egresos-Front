@@ -16,7 +16,7 @@ import { UserGuard } from './security/user.guard';
 const routes: Routes = [
   {path:'login',component:LoginPageComponent},
   {path:'home',component:HomePageComponent,canActivate:[UserGuard]},
-  {path: '', pathMatch: 'full', redirectTo: 'home'},
+  {path: '', pathMatch: 'full', redirectTo: '/home'},
   {path:'home/manage-users',component:ManageUserComponent,canActivate:[UserGuard]},
   {path:'home/income-accounts',component:IncomeAccountsComponent,canActivate:[UserGuard]},
   {path:'home/expense-accounts',component:ExpenseAccountsComponent,canActivate:[UserGuard]},
