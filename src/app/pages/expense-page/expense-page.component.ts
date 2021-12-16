@@ -31,9 +31,6 @@ export class ExpensePageComponent implements OnInit {
     {titulo:"FECHA" ,name: "date"},
     {titulo:"MES",name:"month"},
     {titulo:"CONCEPTO",name:"concept"},
-    {titulo:"IMPORTE",name:"amount"},
-    {titulo:"COMENTARIO",name:"comment"},
-    {titulo:"CUENTA",name:"expenseAccount"},
 
   ];
   

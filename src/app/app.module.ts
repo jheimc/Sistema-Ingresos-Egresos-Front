@@ -52,6 +52,10 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { DgUpdateWelcomeMessageComponent } from './dialogs/dg-update-welcome-message/dg-update-welcome-message.component';
 import { DgUpdateImageComponent } from './dialogs/dg-update-image/dg-update-image.component';
 import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { DecimalPipe } from '@angular/common';
+import { TwoDigitsDecimalNumberDirective } from './directives/two-digits-decimal-number.directive';
+import { MaskDirective } from './directives/mask.directive';
+import { Decimal2Directive } from './directives/decimal2.directive';
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,7 +81,10 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     DgRestartPasswordComponent,
     SettingsComponent,
     DgUpdateWelcomeMessageComponent,
-    DgUpdateImageComponent
+    DgUpdateImageComponent,
+    TwoDigitsDecimalNumberDirective,
+    MaskDirective,
+    Decimal2Directive
   ],
   imports: [
     BrowserModule,
@@ -105,7 +112,7 @@ import { MaterialFileInputModule } from 'ngx-material-file-input';
     NgxChartsModule,
     MaterialFileInputModule
   ],
-  providers: [CookieService,RequestService,interceptorProvider],
+  providers: [CookieService,RequestService,interceptorProvider,DecimalPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

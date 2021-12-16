@@ -7,6 +7,7 @@ import { ITable, Item, PdfMakeWrapper, Table, Txt } from 'pdfmake-wrapper';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { RequestService } from 'src/app/services/request.service';
+import {DecimalPipe} from '@angular/common';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 type TableRow=[any,any,any,any,any,any,any,any,any,any,any,any,any,any]
 @Component({
@@ -21,7 +22,8 @@ export class ReportIncomePageComponent implements OnInit {
     public dialog: MatDialog, 
     private RequestService: RequestService,
     private snack:MatSnackBar,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private decimalPipe:DecimalPipe,
     ) { }
  
   usersResponse:any;
@@ -33,6 +35,7 @@ export class ReportIncomePageComponent implements OnInit {
   actualYear:number;
   displayedColumns: string[] = [ 'accountName','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Totales'];
   dataSource =  new MatTableDataSource<any>([]);
+  dataPrint:any[];
   columnas=[
     
     {titulo:"ENERO" ,name: "Enero"},
@@ -82,25 +85,35 @@ export class ReportIncomePageComponent implements OnInit {
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
     
     var dataConverted=[];
+    var dataConverted2=[]
     this.data.map(income=>{
       var amount={}
+      var amount2={}
       var account={}
+      var account2={}
       var total=0
       account=Object.assign(account,{accountName:income.accountName})
+      account2=Object.assign(account2,{accountName:income.accountName})
       for(var i=0;i<12;i++){
         total+=income.amount[i]
         amount[months[i]]=income.amount[i];
+        amount2[months[i]]=income.amount[i].toFixed(2)
         account=Object.assign(account,amount);
+        account2=Object.assign(account2,amount2)
       }
       account=Object.assign(account,{Totales:total})
+      account2=Object.assign(account2,{Totales:total.toFixed(2)})
       dataConverted.push(account)
+      dataConverted2.push(account2)
     })
     this.dataSource.data=dataConverted;
+    this.dataPrint=dataConverted2
+    
     })
   }
   getTotalCost(field:string) {
     
-        return this.dataSource?.data.map(t => t[field]).reduce((acc, value) => acc + value, 0);
+        return this.decimalPipe.transform(this.dataSource?.data.map(t => t[field]).reduce((acc, value) => acc + value, 0),'.2-5');
   }
   async printReport(){
     let myDate = new Date();
@@ -111,23 +124,14 @@ export class ReportIncomePageComponent implements OnInit {
         pdf.pageOrientation('landscape')
         pdf.defaultStyle({
           fontSize:11,
-          //font:'roboto'
         })
        
-          /* pdf.add(new Txt('SISTEMA DE GESTION DE ALMACENES').margin([20,0]).bold().fontSize(13).end);
-          pdf.add(new Txt(this.configurations.nameForReport).margin([20,0]).bold().fontSize(13).end);
-          pdf.add(new Txt('Teléfono: '+this.configurations.telephoneForReport).margin([20,0]).fontSize(10).end);
-          pdf.add(new Txt('Email: '+this.configurations.emailForReport).margin([20,0]).fontSize(10).end);
-          pdf.add(new Txt('Dirección: '+this.configurations.addresForReport).margin([20,0]).fontSize(10).end);
- */
+          pdf.add(new Txt('Fecha de impresion: '+ myActualDate).margin([20,10]).alignment('left').fontSize(10).end);
           pdf.add(new Txt('REPORTE DE INGRESOS').bold().alignment('center').fontSize(13).end);
           pdf.add(new Txt('Gestión '+this.yearSelected).bold().alignment('center').fontSize(12).end);
           pdf.add(pdf.ln(1));
-          pdf.add(new Txt('Fecha: '+ myActualDate).margin([20,10]).relativePosition(550,-32).end);
-          pdf.add(new Txt('los ingresos que se detallan a continuacion son de proposito informativo')
-            .margin([20,10]).fontSize(10).end);
-          
-            pdf.add(this.createTable(this.dataSource.data))
+         
+            pdf.add(this.createTable(this.dataPrint))
          
            pdf.create().open();
         

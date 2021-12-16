@@ -9,11 +9,23 @@
       
     </a>
     <div  style=" overflow: scroll; overflow-x: scroll; ">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:100%">
 
         <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
           <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> {{columna.titulo}}  </th>
           <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element[columna.name]}} </td>
+        </ng-container>
+        <ng-container  matColumnDef="amount" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> IMPORTE </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element.amount|number:'.2-5'}} </td>
+        </ng-container>
+        <ng-container  matColumnDef="comment" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> COMENTARIO </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element.comment}} </td>
+        </ng-container>
+        <ng-container  matColumnDef="incomeAccount" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> CUENTA </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element.incomeAccount}} </td>
         </ng-container>
         <ng-container matColumnDef="actions" >
             <th mat-header-cell *matHeaderCellDef style="min-width: 85px;   text-align: center;font-weight: bold;"> ACCIONES </th>

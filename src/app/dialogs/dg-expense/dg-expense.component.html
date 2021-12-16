@@ -21,7 +21,7 @@
                         <div class="field" style="width: 50%;">
                             <mat-form-field appearance="outline" style="width: 100%;">
                                 <mat-label>Mes</mat-label>
-                                <mat-select formControlName="month" >
+                                <mat-select formControlName="month" disabled>
                             
                                     <ng-container >
                                         <mat-option  *ngFor="let month of months" [value]="month.name">{{month.name}}</mat-option>
@@ -59,7 +59,9 @@
                         <mat-label>Importe</mat-label>
                         <mat-icon matSuffix>attach_money</mat-icon>
                         <input matInput placeholder="importe en Bs." formControlName="amount"
-                                required type="number">
+                                required type="number" value="0.00"
+                                step=".01" [mask]="'^[+-]?([1-9]\\d*|0)?(\\.\\d\{0,2\})?$'"
+                                decimal2>
                                 
                         <mat-error *ngIf="isValidField('amount')">{{getErrorMessage('amount','register')}}</mat-error>
                         </mat-form-field>
@@ -108,7 +110,7 @@
                               </mat-form-field>
                         </div>
                         <div class="field" style="width: 50%;">
-                            <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-form-field appearance="outline" style="width: 100%;" disabled>
                                 <mat-label>Mes</mat-label>
                                 <mat-select formControlName="month" >
                             
@@ -148,7 +150,8 @@
                         <mat-label>Importe</mat-label>
                         <mat-icon matSuffix>attach_money</mat-icon>
                         <input matInput placeholder="importe en Bs." formControlName="amount"
-                                required type="number">
+                                required type="number"  step=".01"[mask]="'^[+-]?([1-9]\\d*|0)?(\\.\\d\{0,2\})?$'"
+                                decimal2>
                                 
                         <mat-error *ngIf="isValidField('amount')">{{getErrorMessage('amount','register')}}</mat-error>
                         </mat-form-field>

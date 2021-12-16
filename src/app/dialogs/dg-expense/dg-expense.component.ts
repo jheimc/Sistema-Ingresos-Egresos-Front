@@ -55,6 +55,14 @@ export class DgExpenseComponent implements OnInit {
     idExpense:['',[]],
   })
   ngOnInit(): void {
+    /* var d = 0.8;   // 0.85
+       var ds=new Number(parseFloat(d.toFixed(2)).toFixed(2));
+       console.log(ds) */
+   /*  var valuesalarypay=98256.8;
+    valuesalarypay= parseFloat( valuesalarypay.toFixed(2))
+    console.log(valuesalarypay) */
+    //var j = parseFloat(Math.round(29.6 * 100) / 100).toFixed(2)
+    //console.log(j)
    console.log(this.data)
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
@@ -69,7 +77,19 @@ export class DgExpenseComponent implements OnInit {
 
     }
   }
-  
+  fillDecimals(number, length) {
+    function pad(input, length, padding) { 
+      var str = input + "";
+      return (length <= str.length) ? str : pad(str + padding, length, padding);
+    }
+    var str        = number+"";
+    var dot        = str.lastIndexOf('.');
+    var isDecimal  = dot != -1;
+    var integer    = isDecimal ? str.substr(0, dot) : str;
+    var decimals   = isDecimal ? str.substr(dot+1)  : "";
+    decimals       = pad(decimals, length, 0);
+    return integer + '.' + decimals;
+  }
   saveExpense(expense,formDirective: FormGroupDirective){
     console.log("Esta es ingreso a regstrar",expense);
     
@@ -153,6 +173,8 @@ export class DgExpenseComponent implements OnInit {
         }
       }
 
-     
+      changeFormat(event){
+        console.log(event)
+      }
 }
 
