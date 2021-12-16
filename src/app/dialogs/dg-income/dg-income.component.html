@@ -61,7 +61,6 @@
                         <input matInput placeholder="importe en Bs." formControlName="amount"
                                 required type="number"  [mask]="'^[+]?([1-9]\\d*|0)?(\\.\\d\{0,2\})?$'"
                                 [decimal2]>
-                                {{registerIncome.get('amount').value|json}}
                         <mat-error *ngIf="isValidField('amount')">{{getErrorMessage('amount','register')}}</mat-error>
                         </mat-form-field>
                     </div>

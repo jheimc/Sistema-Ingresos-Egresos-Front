@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, Input,Optional } from '@angular/core';
-import { NgControl } from '@angular/forms'
+import { NgControl, NgModelGroup } from '@angular/forms'
 
 @Directive({
   selector: '[mask]'
@@ -23,14 +23,15 @@ export class MaskDirective {
     let matchvalue = value;
     let noMatch: boolean = (value && !(this.regExpr.test(matchvalue)));
     if (noMatch) {
-      item.selectionStart = item.selectionEnd = pos - 1;
+     // item.selectionStart = item.selectionEnd = pos - 1;
       if (item.value.length < this._oldvalue.length && pos == 0)
         pos = 2;
       if (this.control)
+      
         this.control.control.setValue(this._oldvalue, { emit: false });
 
       item.value = this._oldvalue;
-      item.selectionStart = item.selectionEnd = pos - 1;
+      //item.selectionStart = item.selectionEnd = pos - 1;
     }
     else
       this._oldvalue = value;
