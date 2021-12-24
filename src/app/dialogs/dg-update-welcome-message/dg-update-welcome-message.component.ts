@@ -31,7 +31,7 @@ export class DgUpdateWelcomeMessageComponent implements OnInit {
   updateWelcomeMessage(data){
     this.formData.append('welcomeMessage',data)
    this.activateSpinner=true;
-    this.RequestService.put("http://localhost:8080/api/setting/updateWelcomeMessage",this.formData).subscribe({
+    this.RequestService.put("api/setting/updateWelcomeMessage",this.formData).subscribe({
       next:()=>{
         this.activateSpinner=false;
         window.location.reload()

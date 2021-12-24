@@ -26,7 +26,7 @@ export class UserProfilePageComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadDataUser(){
-    this.RequestService.get('http://localhost:8080/api/user/getDataUser/'+this.user.idUser)
+    this.RequestService.get('api/user/getDataUser/'+this.user.idUser)
      .subscribe(r=>{
        console.log(r);
        this.userData = r;

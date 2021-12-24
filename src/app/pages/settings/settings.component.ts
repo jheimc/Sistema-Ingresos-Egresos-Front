@@ -26,7 +26,7 @@ export class SettingsComponent implements OnInit {
   }
 
   loadDataConfigurations(){
-    this.RequestService.get("http://localhost:8080/api/setting/getSetting").subscribe(r=>{
+    this.RequestService.get("api/setting/getSetting").subscribe(r=>{
     //console.log(r)
     this.dataConfiguration=r
     })

@@ -111,7 +111,7 @@ export class DgRegisterUserComponent implements OnInit {
   saveUser(user,formDirective: FormGroupDirective){
     console.log("Esta es a unidadRegistrar",user);
     
-    this.RequestService.post('http://localhost:8080/api/user/createUser', user)
+    this.RequestService.post('api/user/createUser', user)
     .subscribe({
       next:()=>{
         this.snack.open('Usuario registrada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -126,7 +126,7 @@ export class DgRegisterUserComponent implements OnInit {
   saveEdit(update,formDirective: FormGroupDirective){
 
     console.log(update)
-    this.RequestService.put('http://localhost:8080/api/user/updateDataUser/'+this.user?.idUser, update)
+    this.RequestService.put('api/user/updateDataUser/'+this.user?.idUser, update)
     .subscribe({
       next:()=>{
         this.snack.open('Usuario actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -144,7 +144,7 @@ export class DgRegisterUserComponent implements OnInit {
 
     return (control: AbstractControl) => {
       console.log(control.value)
-      return this.RequestService.get('http://localhost:8080/api/user/uniqueUserName/'+control.value)
+      return this.RequestService.get('api/user/uniqueUserName/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : {exist:!result})
         );
@@ -155,7 +155,7 @@ export class DgRegisterUserComponent implements OnInit {
 
     return (control: AbstractControl) => {
       console.log(control.value)
-      return this.RequestService.get('http://localhost:8080/api/auth/uniqueTelephoneAll/'+control.value)
+      return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : {exist:!result})
         );
@@ -213,7 +213,7 @@ export class DgRegisterUserComponent implements OnInit {
     )  }
     usernameCheckEdit(): AsyncValidatorFn{
       return (control: AbstractControl) => {
-      return this.RequestService.get('http://localhost:8080/api/user/uniqueUserName/'+control.value)
+      return this.RequestService.get('api/user/uniqueUserName/'+control.value)
         .pipe(
             map((result) => (result==true) ?  null : ((control.value==this.user.username)?null:{exist:!result}))
           );
@@ -224,7 +224,7 @@ export class DgRegisterUserComponent implements OnInit {
 
       return (control: AbstractControl) => {
         console.log(control.value)
-        return this.RequestService.get('http://localhost:8080/api/auth/uniqueTelephoneAll/'+control.value)
+        return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
           .pipe(
             map((result) => (result==true) ?  null : ((control.value==this.user.telephone)?null:{exist:!result}))
           );

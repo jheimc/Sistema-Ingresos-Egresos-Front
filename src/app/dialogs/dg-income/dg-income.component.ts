@@ -72,7 +72,7 @@ export class DgIncomeComponent implements OnInit {
   }
   
   saveIncome(income,formDirective: FormGroupDirective){
-    this.RequestService.post('http://localhost:8080/api/incomeUser/registerIncome/'+this.user.idUser, income)
+    this.RequestService.post('api/incomeUser/registerIncome/'+this.user.idUser, income)
     .subscribe({
       next:()=>{
         this.snack.open('Ingreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -87,7 +87,7 @@ export class DgIncomeComponent implements OnInit {
   saveEditIncome(update,formDirective: FormGroupDirective){
 
     console.log(update)
-    this.RequestService.put('http://localhost:8080/api/incomeUser/updateIncomeOfUser/'+this.income.idIncomeUser, update)
+    this.RequestService.put('api/incomeUser/updateIncomeOfUser/'+this.income.idIncomeUser, update)
     .subscribe({
       next:()=>{
         this.snack.open('Ingreso actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

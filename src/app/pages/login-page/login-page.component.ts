@@ -43,7 +43,7 @@ export class LoginPageComponent implements OnInit {
     onLogin(login,formDirective: FormGroupDirective){
       this.errorLogin=false;
       //console.log(login)
-      this.RequestService.post('http://localhost:8080/api/auth/authenticate',login)
+      this.RequestService.post('api/auth/authenticate',login)
       .subscribe( {
         next:(respuesta:any)=>{
           console.log(respuesta)
@@ -92,7 +92,7 @@ export class LoginPageComponent implements OnInit {
     
   }
   loadDataConfigurations(){
-    this.RequestService.get("http://localhost:8080/api/setting/getSetting").subscribe(r=>{
+    this.RequestService.get("api/setting/getSetting").subscribe(r=>{
     //console.log(r)
     this.dataConfiguration=r
     })

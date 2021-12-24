@@ -71,7 +71,7 @@ export class DgUpdateUserComponent implements OnInit {
     if(update.username!=""){
       this.changeUsername=true;
     }
-    this.RequestService.put('http://localhost:8080/api/user/updateDataFinalUser/'+this.data.idUser, update)
+    this.RequestService.put('api/user/updateDataFinalUser/'+this.data.idUser, update)
     .subscribe({
       next:(r:any)=>{
         this.snack.open('Usuario actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -97,7 +97,7 @@ export class DgUpdateUserComponent implements OnInit {
   usernameCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      return this.RequestService.get('http://localhost:8080/api/user/uniqueUserName/'+control.value)
+      return this.RequestService.get('api/user/uniqueUserName/'+control.value)
         .pipe(
             map((result) => (result==true) ?  null : ((control.value==this.user.username)?null:{exist:!result}))
           );
@@ -107,7 +107,7 @@ export class DgUpdateUserComponent implements OnInit {
   telephoneCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      return this.RequestService.get('http://localhost:8080/api/auth/uniqueTelephoneAll/'+control.value)
+      return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : ((control.value==this.user.telephone)?null:{exist:!result}))
         );

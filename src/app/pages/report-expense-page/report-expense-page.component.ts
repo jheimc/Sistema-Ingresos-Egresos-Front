@@ -79,7 +79,7 @@ export class ReportExpensePageComponent implements OnInit {
   }
   loadExpenseReport(){
     
-    this.RequestService.get('http://localhost:8080/api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
+    this.RequestService.get('api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
     this.data=r ; 
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
     

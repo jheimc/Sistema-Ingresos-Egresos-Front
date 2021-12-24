@@ -45,12 +45,12 @@ export class ExpensePageComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadExpenseAccounts(){
-    this.RequestService.get('http://localhost:8080/api/expense/allExpenses/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/expense/allExpenses/'+this.user.idUser).subscribe(r=>{
       this.expenses=r;
     })
   }
   loadExpenseByUser(){
-    this.RequestService.get('http://localhost:8080/api/expenseUser/allExpesesByUser/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/expenseUser/allExpesesByUser/'+this.user.idUser).subscribe(r=>{
       this.allExpenses=r;
       this.dataSource.data=this.allExpenses;
     })

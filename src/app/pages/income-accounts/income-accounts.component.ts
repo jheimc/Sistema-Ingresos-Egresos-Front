@@ -41,7 +41,7 @@ export class IncomeAccountsComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadIncomeAccounts(){
-    this.RequestService.get('http://localhost:8080/api/income/allIncomes/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/income/allIncomes/'+this.user.idUser).subscribe(r=>{
       this.incomes=r;
       this.dataSource.data=this.incomes;
     })
@@ -67,7 +67,7 @@ export class IncomeAccountsComponent implements OnInit {
   }
   deleteIncome(idIncome){
     console.log(idIncome)
-    this.RequestService.put('http://localhost:8080/api/income/deleteIncome/'+idIncome,{})
+    this.RequestService.put('api/income/deleteIncome/'+idIncome,{})
     .subscribe({
       error:()=>{
         this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

@@ -41,7 +41,7 @@ export class ExpenseAccountsComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadIncomeAccounts(){
-    this.RequestService.get('http://localhost:8080/api/expense/allExpenses/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/expense/allExpenses/'+this.user.idUser).subscribe(r=>{
       this.incomes=r;
       this.dataSource.data=this.incomes;
     })
@@ -66,7 +66,7 @@ export class ExpenseAccountsComponent implements OnInit {
     });
   }
   deleteExpense(idExpense){
-    this.RequestService.put('http://localhost:8080/api/expense/deleteExpense/'+idExpense,{})
+    this.RequestService.put('api/expense/deleteExpense/'+idExpense,{})
     .subscribe({
       error:()=>{
         this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

@@ -86,7 +86,7 @@ export class DgRestartPasswordComponent implements OnInit {
     
       var dataUser={idUser:this.data.user.idUser,password:this.changePasswordUser.get('password').value}
       
-      this.RequestService.put("http://localhost:8080/api/auth/changePassword",dataUser)
+      this.RequestService.put("api/auth/changePassword",dataUser)
       .subscribe({
         next:()=>{
           this.snack.open('contraseña actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

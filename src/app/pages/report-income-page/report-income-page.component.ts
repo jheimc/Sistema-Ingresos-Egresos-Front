@@ -80,7 +80,7 @@ export class ReportIncomePageComponent implements OnInit {
   }
   loadIncomesReport(){
     
-    this.RequestService.get('http://localhost:8080/api/income/incomesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
+    this.RequestService.get('api/income/incomesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
     this.data=r ; 
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
     

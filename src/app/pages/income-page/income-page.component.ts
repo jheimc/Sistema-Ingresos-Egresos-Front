@@ -44,12 +44,12 @@ export class IncomePageComponent implements OnInit {
     this.user=JSON.parse(localStorage.getItem("user"))
   }
   loadIncomeAccounts(){
-    this.RequestService.get('http://localhost:8080/api/income/allIncomes/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/income/allIncomes/'+this.user.idUser).subscribe(r=>{
       this.incomes=r;
     })
   }
   loadIncomesByUser(){
-    this.RequestService.get('http://localhost:8080/api/incomeUser/allIncomesByUser/'+this.user.idUser).subscribe(r=>{
+    this.RequestService.get('api/incomeUser/allIncomesByUser/'+this.user.idUser).subscribe(r=>{
       this.allIncomes=r;
       this.dataSource.data=this.allIncomes;
     })

@@ -29,7 +29,7 @@ export class DgUpdateImageComponent implements OnInit {
   ngOnInit(): void {
   }
   updateImage(){
-    this.RequestService.put('http://localhost:8080/api/setting/updateImage',this.formData).subscribe({
+    this.RequestService.put('api/setting/updateImage',this.formData).subscribe({
       next:()=>{
        window.location.reload();
        

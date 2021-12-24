@@ -71,7 +71,7 @@ export class HomePageComponent implements OnInit {
   }
   loadTotalsData(){
     if(this.ROLE_USER_FINAL){
-      this.RequestService.get('http://localhost:8080/api/user/getIncomeAndExpenseTotal/'+this.user.idUser).subscribe(r=>{
+      this.RequestService.get('api/user/getIncomeAndExpenseTotal/'+this.user.idUser).subscribe(r=>{
       this.totalIncomes=r[0].total;
       this.totalExpenses=r[1].total;
       this.incomesAccounts=r[2].total;
@@ -90,11 +90,11 @@ export class HomePageComponent implements OnInit {
   }
   loadIncomesReport(){
     if(this.ROLE_USER_FINAL){
-      this.RequestService.get('http://localhost:8080/api/income/incomesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
+      this.RequestService.get('api/income/incomesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
         this.dataIncomes=r ; 
         var ingresos=this.convertDataSeries(this.dataIncomes,"Ingresos")
         
-        this.RequestService.get('http://localhost:8080/api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(e=>{
+        this.RequestService.get('api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(e=>{
           this.dataExpenses=e;
           var egresos=this.convertDataSeries(this.dataExpenses,"Egresos")
           this.makeDataChart(ingresos,egresos)
@@ -149,7 +149,7 @@ export class HomePageComponent implements OnInit {
     this.multi=dataChart
   }
   loadDataConfigurations(){
-    this.RequestService.get("http://localhost:8080/api/setting/getSetting").subscribe(r=>{
+    this.RequestService.get("api/setting/getSetting").subscribe(r=>{
     //console.log(r)
     this.dataConfiguration=r
     })

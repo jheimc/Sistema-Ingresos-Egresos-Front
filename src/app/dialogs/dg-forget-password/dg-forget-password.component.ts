@@ -36,7 +36,7 @@ export class DgForgetPasswordComponent implements OnInit {
   sendEmail(){
     var telephone=this.changePassword.get('telephone').value
     this.activateSpinner=true;
-    this.RequestService.get("http://localhost:8080/api/auth/recoverByPhone/"+telephone).subscribe(r=>{
+    this.RequestService.get("api/auth/recoverByPhone/"+telephone).subscribe(r=>{
       console.log(r)
       this.idUser=r
       this.activateSpinner=false;
@@ -49,7 +49,7 @@ export class DgForgetPasswordComponent implements OnInit {
 
     return (control: AbstractControl) => {
       console.log(control.value)
-      return this.RequestService.get('http://localhost:8080/api/auth/uniqueTelephoneAll/'+control.value)
+      return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  {exist:result} :null )
         );

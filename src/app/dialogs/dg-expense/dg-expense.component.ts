@@ -93,7 +93,7 @@ export class DgExpenseComponent implements OnInit {
   saveExpense(expense,formDirective: FormGroupDirective){
     console.log("Esta es ingreso a regstrar",expense);
     
-    this.RequestService.post('http://localhost:8080/api/expenseUser/registerExpense/'+this.user.idUser, expense)
+    this.RequestService.post('api/expenseUser/registerExpense/'+this.user.idUser, expense)
     .subscribe({
       next:()=>{
         this.snack.open('Egreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -107,7 +107,7 @@ export class DgExpenseComponent implements OnInit {
   }
   saveEditExpense(update,formDirective: FormGroupDirective){
     console.log(update)
-    this.RequestService.put('http://localhost:8080/api/expenseUser/updateExpenseOfUser/'+this.expense.idExpenseUser, update)
+    this.RequestService.put('api/expenseUser/updateExpenseOfUser/'+this.expense.idExpenseUser, update)
     .subscribe({
       next:()=>{
         this.snack.open('Egreso actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

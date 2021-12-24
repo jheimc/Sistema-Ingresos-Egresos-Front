@@ -40,7 +40,7 @@ export class ManageUserComponent implements OnInit {
   }
 
   loadUsers(){
-    this.RequestService.get('http://localhost:8080/api/user/allUser').subscribe(r=>{
+    this.RequestService.get('api/user/allUser').subscribe(r=>{
       this.usersResponse=r;
       this.users=this.usersResponse;
       this.dataSource.data=this.users;
@@ -70,7 +70,7 @@ export class ManageUserComponent implements OnInit {
 
   deleteUser(idUser){
     console.log(idUser)
-    this.RequestService.put('http://localhost:8080/api/user/deleteUser/'+idUser,{})
+    this.RequestService.put('api/user/deleteUser/'+idUser,{})
     .subscribe({
       error:()=>{
         this.snack.open('Usuario eliminado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

@@ -38,7 +38,7 @@ export class DgCreateExpenseAccountComponent implements OnInit {
   }
   sendExpense(expense){
     console.log(expense)
-    this.RequestService.post("http://localhost:8080/api/expense/createExpense/"+this.data.user.idUser,expense).subscribe({
+    this.RequestService.post("api/expense/createExpense/"+this.data.user.idUser,expense).subscribe({
       next:()=>{
         this.snack.open('Cuenta creada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
@@ -51,7 +51,7 @@ export class DgCreateExpenseAccountComponent implements OnInit {
     })
   }
   updateExpense(expense){
-    this.RequestService.put("http://localhost:8080/api/expense/updateExpense/"+this.expenseData.idExpense,expense).subscribe({
+    this.RequestService.put("api/expense/updateExpense/"+this.expenseData.idExpense,expense).subscribe({
       next:()=>{
         this.snack.open('Cuenta actualizada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();

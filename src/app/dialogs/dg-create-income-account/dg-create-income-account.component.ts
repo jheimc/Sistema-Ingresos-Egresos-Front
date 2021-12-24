@@ -39,7 +39,7 @@ export class DgCreateIncomeAccountComponent implements OnInit {
   }
   sendIncome(income){
     console.log(income)
-    this.RequestService.post("http://localhost:8080/api/income/createIncome/"+this.data.user.idUser,income).subscribe({
+    this.RequestService.post("api/income/createIncome/"+this.data.user.idUser,income).subscribe({
       next:()=>{
         this.snack.open('Cuenta creada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
@@ -52,7 +52,7 @@ export class DgCreateIncomeAccountComponent implements OnInit {
     })
   }
   updateIncome(income){
-    this.RequestService.put("http://localhost:8080/api/income/updateIncome/"+this.incomeData.idIncome,income).subscribe({
+    this.RequestService.put("api/income/updateIncome/"+this.incomeData.idIncome,income).subscribe({
       next:()=>{
         this.snack.open('Cuenta actualizada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
