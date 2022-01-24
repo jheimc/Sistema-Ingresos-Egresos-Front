@@ -147,6 +147,7 @@ export class HomePageComponent implements OnInit {
       dataChart.push(itemChart)
     }
     this.multi=dataChart
+    console.log(dataChart)
   }
   loadDataConfigurations(){
     this.RequestService.get("api/setting/getSetting").subscribe(r=>{

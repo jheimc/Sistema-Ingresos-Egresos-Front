@@ -1,9 +1,10 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, enableProdMode, Inject, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { RequestService } from 'src/app/services/request.service';
+import { DgAddLimitComponent } from '../dg-add-limit/dg-add-limit.component';
 
 @Component({
   selector: 'app-dg-expense',
@@ -17,11 +18,17 @@ export class DgExpenseComponent implements OnInit {
     private formBuilder: FormBuilder,
     private RequestService: RequestService,
     private snack:MatSnackBar,
+    private dialog:MatDialog,
+    private dialogRef: MatDialogRef<DgExpenseComponent>,
   ) { }
     transform:any;
     expenses:any;
     expense:any;
     user:any;
+    limitStatus:boolean=false;
+    limit:number;
+    totalMonth:number;
+    idLimit:number;
     month:any;
     months:any[]=[
     {name:"Enero"},
@@ -37,9 +44,15 @@ export class DgExpenseComponent implements OnInit {
     {name:"Noviembre"},
     {name:"Diciembre"},
   ]
+  /* amountLimits=[
+    {id:1,month:"Enero",year:2022,limit:1500},
+    {id:2,month:"Diciembre",year:2021,limit:2500},
+    {id:3,month:"Octubre",year:2021,limit:5000}] */
+    amountLimits=[]
   registerExpense= this.formBuilder.group({
+    idLimit:['',[Validators.required]],
     date:['',[Validators.required]],
-    month:['',[Validators.required]],
+    month:[{value: '', disabled: true},Validators.required],
     concept:['',[Validators.required]],
     amount:['',[Validators.required]],
     comment:['',[Validators.required]],
@@ -47,26 +60,20 @@ export class DgExpenseComponent implements OnInit {
 
   });
   editExpense = this.formBuilder.group({
+    idLimit:['',[Validators.required]],
     date:['',[Validators.required]],
-    month:['',[Validators.required]],
+    month:[{value: '', disabled: true},[Validators.required]],
     concept:['',[Validators.required]],
     amount:['',[Validators.required]],
     comment:['',[Validators.required]],
     idExpense:['',[]],
   })
   ngOnInit(): void {
-    /* var d = 0.8;   // 0.85
-       var ds=new Number(parseFloat(d.toFixed(2)).toFixed(2));
-       console.log(ds) */
-   /*  var valuesalarypay=98256.8;
-    valuesalarypay= parseFloat( valuesalarypay.toFixed(2))
-    console.log(valuesalarypay) */
-    //var j = parseFloat(Math.round(29.6 * 100) / 100).toFixed(2)
-    //console.log(j)
-   console.log(this.data)
+    
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
     this.user=this.data.user
+    this.loadLimits()
     if(this.transform=='edit'){
       this.expense=this.data.expense;
       this.editExpense.get('date').setValue(this.expense?.date);
@@ -76,6 +83,11 @@ export class DgExpenseComponent implements OnInit {
       this.editExpense.controls['comment'].setValue(this.expense?.comment);
 
     }
+  }
+  loadLimits(){
+    this.RequestService.get('api/limit/getAll/'+this.user.idUser).subscribe(r=>{
+      this.amountLimits=r;
+    })
   }
   fillDecimals(number, length) {
     function pad(input, length, padding) { 
@@ -92,18 +104,22 @@ export class DgExpenseComponent implements OnInit {
   }
   saveExpense(expense,formDirective: FormGroupDirective){
     console.log("Esta es ingreso a regstrar",expense);
-    
-    this.RequestService.post('api/expenseUser/registerExpense/'+this.user.idUser, expense)
+    if(expense.amount+this.totalMonth>this.limit){
+      this.snack.open('Excedio el limite del mes.','CERRAR',{duration:15000,panelClass:'warning',})
+    }
+     this.RequestService.post('api/expenseUser/registerExpense/'+this.user.idUser, expense)
     .subscribe({
       next:()=>{
         this.snack.open('Egreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        window.location.reload();
+       // window.location.reload();
     
       },
       error:()=>{
         this.snack.open('Fallo al registrar el egreso','CERRAR',{duration:5000})
       }
-    });
+    }); 
+    
+    
   }
   saveEditExpense(update,formDirective: FormGroupDirective){
     console.log(update)
@@ -149,20 +165,23 @@ export class DgExpenseComponent implements OnInit {
        !this.registerExpense.get(field).valid
     )  }
     
-    isValidFieldEdit(field: string):boolean{
+  isValidFieldEdit(field: string):boolean{
       return(
         (this.editExpense.get(field).touched || this.editExpense.get(field).dirty) &&
          !this.editExpense.get(field).valid
-      )  }
+    )  
+  }
 
-      addEvent(event: MatDatepickerInputEvent<Date>) {
+  addEvent(event: MatDatepickerInputEvent<Date>) {
         if(this.transform=='register'){
           const Date=this.registerExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
           //this.registerExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
+          
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-            this.registerExpense.get('month').setValue(months[this.month])
+          this.loadLimits(months[this.month],event.value.getFullYear())  
+          this.registerExpense.get('month').setValue(months[this.month])
         }else{
           const Date=this.editExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
@@ -173,8 +192,42 @@ export class DgExpenseComponent implements OnInit {
         }
       }
 
-      changeFormat(event){
-        console.log(event)
+  changeFormat(event){
+     console.log(event)
+  }
+  loadLimits(month,year){
+    this.limitStatus=false;
+    this.totalMonth=0
+    this.amountLimits.map(limit=>{
+      if(limit.month==month && limit.year==year){
+        this.limitStatus=true;
+        this.limit=limit.limit;
+        this.idLimit=limit.id;
+        this.registerExpense.get('idLimit').setValue(this.idLimit)
       }
+    })
+    if(this.limitStatus){
+      this.data.allExpenses.map(expense=>{
+        if(expense.month==month && expense.date.split("-")[0]==year.toString()){
+          this.totalMonth+=expense.amount
+        }
+      })
+    }else{
+      this.openLimit(month,year)
+    }
+
+  }
+  openLimit(month,year){
+      this.dialog.open(DgAddLimitComponent,{
+        width: '70%',
+        data:{
+          user:this.user,
+          month:month,
+          year:year,
+          transform:"register",
+        }
+      });
+    this.dialogRef.close() 
+  }
 }
 

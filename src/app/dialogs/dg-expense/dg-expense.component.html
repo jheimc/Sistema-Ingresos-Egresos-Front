@@ -3,9 +3,35 @@
 
         <div class="card"> 
             <div style="text-align: center; margin-top: 10px; margin-bottom: 15px;"> 
-                <h2>Añadir Egreso</h2>
+                <h2>Añadir Egreso </h2>
             </div> 
-        
+            <div class="cards" *ngIf="limitStatus">
+                <mat-card class="example-card">
+                  <mat-card-content style="display: flex;">
+                      <div class="icon" style="background-color: rgb(106, 240, 101);">
+                          <mat-icon>credit_card</mat-icon>
+                      </div>
+                      <div class="data">
+                          <mat-card-title style="color: rgb(106, 240, 101);">{{limit}} Bs.</mat-card-title>
+                          <mat-card-subtitle>MONTO LIMITE DE {{months[month]?.name}} </mat-card-subtitle>
+                      </div>
+                   
+                  </mat-card-content>
+                </mat-card>
+                <mat-card class="example-card">
+                  <mat-card-content style="display: flex;">
+                      <div class="icon" style="background-color: rgb(240, 122, 101);">
+                          <mat-icon>cloud_download</mat-icon>
+                      </div>
+                      <div class="data">
+                          <mat-card-title style="color: rgb(240, 122, 101);">{{totalMonth}} Bs.</mat-card-title>
+                          <mat-card-subtitle>SUMATORIA DE EGRESOS DE {{months[month]?.name}}</mat-card-subtitle>
+                          <p class="expiry"*ngIf="totalMonth>limit"><mat-icon style="font-size: medium;vertical-align: middle;">warning_amber</mat-icon>Se excedio el monto limite del mes</p>
+                        </div>
+                      
+                  </mat-card-content>
+                </mat-card>
+            </div>
                 <div style="width: 100%;">
                     <div style="display: flex; width: 100%;">
                         <div class="field" style="width: 50%;margin-right: 10px;">

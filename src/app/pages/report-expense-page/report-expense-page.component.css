@@ -44,3 +44,6 @@ tr.mat-footer-row {
   .mat-cell, .mat-footer-cell {
     font-size: 12px;
 }
+.make-red {
+  background-color: gold
+}

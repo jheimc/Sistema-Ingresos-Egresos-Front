@@ -61,7 +61,8 @@ export class ExpensePageComponent implements OnInit {
       data:{
         user:this.user,
         expensesList:this.expenses,
-        transform:"register"
+        transform:"register",
+        allExpenses:this.allExpenses
       }
     }); 
   }
@@ -72,6 +73,7 @@ export class ExpensePageComponent implements OnInit {
         expense:expense,
         expensesList:this.expenses,
         transform:'edit',
+        allExpenses:this.allExpenses
       }
     });
   }

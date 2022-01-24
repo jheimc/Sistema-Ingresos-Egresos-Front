@@ -56,6 +56,7 @@ import { DecimalPipe } from '@angular/common';
 import { TwoDigitsDecimalNumberDirective } from './directives/two-digits-decimal-number.directive';
 import { MaskDirective } from './directives/mask.directive';
 import { Decimal2Directive } from './directives/decimal2.directive';
+import { DgAddLimitComponent } from './dialogs/dg-add-limit/dg-add-limit.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -84,7 +85,8 @@ import { Decimal2Directive } from './directives/decimal2.directive';
     DgUpdateImageComponent,
     TwoDigitsDecimalNumberDirective,
     MaskDirective,
-    Decimal2Directive
+    Decimal2Directive,
+    DgAddLimitComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,65 @@
+<div *ngIf="transform=='register'">
+    <div style="text-align: end;">
+      <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
+  </div>
+  
+  <div class="popup" [formGroup]="limit">
+      <h1>Agregar monto limite al mes</h1>
+      <p>Ingresa el monto</p>
+      <div class="field">
+          <mat-form-field  appearance="outline" style="width: 100%;">
+          <mat-label>Mes</mat-label>
+          <input matInput placeholder="Ingresa el mes" required type="text" formControlName='month'readonly>
+          <mat-error >este campo es requerido</mat-error>
+          </mat-form-field>
+          <mat-form-field  appearance="outline" style="width: 100%;">
+            <mat-label>Año</mat-label>
+            <input matInput placeholder="Ingresa el año" required type="text" formControlName='year' readonly>
+            <mat-error >este campo es requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field  appearance="outline" style="width: 100%;">
+                <mat-label>Limite</mat-label>
+                <input matInput placeholder="Ingresa el monto limite" required type="number" formControlName='limit'>
+                <mat-error >este campo es requerido</mat-error>
+                </mat-form-field>
+      </div>
+      <div class="links">
+        <button class="btn-confirm" [disabled]="limit.invalid" type="submit" (click)="sendLimit(limit.value)">
+          <span > Guardar limite</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- EDIT EXPENSE -->
+  <div *ngIf="transform=='edit'">
+    <div style="text-align: end;">
+      <button mat-icon-button mat-dialog-close style="top: 0;right: 0;"><mat-icon>cancel</mat-icon></button>
+  </div>
+  
+  <div class="popup" [formGroup]="expenseEdit">
+      <h1>Editar cuenta de Egreso</h1>
+      <p>Ingresa el nombre de la cuenta</p>
+      <div class="field">
+        <mat-form-field  appearance="outline" style="width: 100%;">
+            <mat-label>Mes</mat-label>
+            <input matInput placeholder="Ingresa el mes" required type="text" formControlName='month'readonly>
+            <mat-error >este campo es requerido</mat-error>
+            </mat-form-field>
+            <mat-form-field  appearance="outline" style="width: 100%;">
+              <mat-label>Año</mat-label>
+              <input matInput placeholder="Ingresa el año" required type="text" formControlName='year' readonly>
+              <mat-error >este campo es requerido</mat-error>
+              </mat-form-field>
+              <mat-form-field  appearance="outline" style="width: 100%;">
+                  <mat-label>Limite</mat-label>
+                  <input matInput placeholder="Ingresa el monto limite" required type="number" formControlName='limit'>
+                  <mat-error >este campo es requerido</mat-error>
+                </mat-form-field>
+      </div>
+      <div class="links">
+        <button class="btn-confirm" [disabled]="limitEdit.invalid" type="submit" (click)="updateLimit(limitEdit.value)">
+          <span >Actualizar</span>
+        </button>
+      </div>
+    </div>
+  </div>

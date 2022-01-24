@@ -2,12 +2,15 @@
     <mat-card-header>
         <mat-card-title><mat-icon>cloud_download</mat-icon> Egresos</mat-card-title>
       </mat-card-header>
-      <mat-divider></mat-divider>
+      <mat-divider ></mat-divider>
+      
+    
       <a mat-button class="btn-catalog"(click)="openExpense()">
         <mat-icon>add_circle_outline</mat-icon>
         <span> Nuevo egreso</span>
       
-    </a>
+       </a>
+   
     <div  style=" overflow: scroll; overflow-x: scroll;    ">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:100%">
 

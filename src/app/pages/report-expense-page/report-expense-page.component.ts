@@ -8,6 +8,7 @@ import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { RequestService } from 'src/app/services/request.service';
 import {DecimalPipe} from '@angular/common';
+import { DataSource } from '@angular/cdk/collections';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 type TableRow=[any,any,any,any,any,any,any,any,any,any,any,any,any,any]
 @Component({
@@ -33,7 +34,9 @@ export class ReportExpensePageComponent implements OnInit {
   allExpenses:any;
   actualYear:number;
   displayedColumns: string[] = [ 'accountName','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Totales'];
+  displayedColumnsLimit: string[] = [ 'total','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   dataSource =  new MatTableDataSource<any>([]);
+  dataSource2 =  new MatTableDataSource<any>([]);
   dataPrint:any[];
   columnas=[
     
@@ -55,6 +58,7 @@ export class ReportExpensePageComponent implements OnInit {
   years:any[]=[]
   yearSelected:number;
   data:any;
+  amountLimits:any;
   ngOnInit(): void {
     this.actualYear = new Date().getFullYear();
     this.yearSelected=this.actualYear;
@@ -78,7 +82,18 @@ export class ReportExpensePageComponent implements OnInit {
     this.loadExpenseReport()
   }
   loadExpenseReport(){
-    
+    /* this.amountLimits=[
+      {id:1,month:"Enero",year:2022,limit:1500},
+      {id:2,month:"Diciembre",year:2021,limit:2500},
+      {id:3,month:"Octubre",year:2021,limit:5000}
+    ] */
+    /* this.dataSource2.data=[
+      {total:"Monto limite",Enero:1500,Febrero:0,Marzo:0,Abril:0,Mayo:0,Junio:0,Julio:0,Agosto:0,Septiembre:0,Octubre:0,Noviembre:0,Diciembre:0},
+      {total:"total General",Enero:1600,Febrero:0,Marzo:0,Abril:0,Mayo:0,Junio:0,Julio:0,Agosto:0,Septiembre:0,Octubre:0,Noviembre:0,Diciembre:0},
+    ] */
+    this.RequestService.get('api/limit/getAll/'+this.user.idUser).subscribe(r=>{
+      this.amountLimits=r;
+    })
     this.RequestService.get('api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
     this.data=r ; 
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
@@ -107,8 +122,45 @@ export class ReportExpensePageComponent implements OnInit {
     })
     this.dataSource.data=dataConverted;
     this.dataPrint=dataConverted2
-    
+    this.loadLimitChart(this.dataSource.data)
     })
+    
+  }
+  loadLimitChart(data){
+    /* limits chart */
+    console.log(data)
+    var amountLimitsOfYear=[]
+    var limit={};var totals={}
+    var dataLimits=[]
+    var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    limit={total:"Presupuesto"};
+    totals={total:"Total Egresos"}
+    this.amountLimits.map(a=>{
+      if(a.year==this.yearSelected){
+        amountLimitsOfYear.push(a)
+      }
+    })
+    for(var i=0;i<12;i++){
+      var sum=0
+      data.map(d=>{
+        sum+=d[months[i]]
+      })
+      totals=Object.assign(totals,totals[months[i]]=sum)
+      amountLimitsOfYear.map(a=>{
+        if(months[i]==a.month){
+          limit=Object.assign(limit,limit[months[i]]=a.limit)
+        }else{
+          limit=Object.assign(limit,limit[months[i]]=0)
+        }
+      })
+      
+    }
+    amountLimitsOfYear.map(a=>{
+        limit=Object.assign(limit,limit[a.month]=a.limit)
+    })
+      dataLimits.push(limit)
+      dataLimits.push(totals)
+    this.dataSource2.data=dataLimits
   }
   dataForPrint(){
     console.log(this.dataSource.data)
@@ -117,6 +169,17 @@ export class ReportExpensePageComponent implements OnInit {
     
         return this.decimalPipe.transform(this.dataSource?.data.map(t => t[field]).reduce((acc, value) => acc + value, 0),'.2-5');
   }
+  getExcess(field:string) {
+    var total=0;var cont=0
+    this.dataSource2?.data.map(t => {
+      if(cont==0){
+        total=t[field];cont++;
+      }else{
+        total=total-t[field]
+      }
+    })
+    return this.decimalPipe.transform(total,'.2-5')
+}
   async printReport(){
     let myDate = new Date();
     let myActualDate = this.datePipe.transform(myDate, 'yyyy-MM-dd');

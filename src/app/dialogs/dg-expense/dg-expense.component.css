@@ -3,3 +3,46 @@
     color: white;
     width: 100%;
 }
+.example-card {
+    width: 45%; 
+  }
+  .cards{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 10px;
+  }
+  .icon{
+    font-size: 30px;
+    color: white; 
+    width: 40px;
+    height: 40px;
+    padding-top: 6px;;   
+  }
+  .data{
+    width: 80%;
+    padding-top: 10px;
+    padding-left: 10px;
+  }
+  mat-card-title{
+    font-size: 14px;
+  }
+  mat-card-subtitle{
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 0%;
+  }
+  mat-icon{
+      margin:5px;
+  }
+  ::ng-deep .snackSuccess {
+    background-color: #41a812;
+  }
+  ::ng-deep .warning{
+    background-color: #dd2121;
+  }
+  .expiry{
+    font-size: 0.7rem;
+    color: rgb(218, 194, 60);
+    margin: 0%;
+}

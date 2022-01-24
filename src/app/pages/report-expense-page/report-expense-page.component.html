@@ -24,6 +24,7 @@
         </a>
     </div>
     <h1>Gestión {{yearSelected}}</h1>
+    <mat-card-title style="text-align: left;">Egresos</mat-card-title>
     <div  style=" overflow: scroll; overflow-x: scroll;    ">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:90%">
         <ng-container  matColumnDef="accountName" >
@@ -44,6 +45,29 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         <tr mat-footer-row *matFooterRowDef="displayedColumns" class="example-first-footer-row"></tr>
+      </table>
+    </div>
+    <mat-card-title style="text-align: left; margin-top: 50px;">Presupuestos</mat-card-title>
+    <div  style=" overflow: scroll; overflow-x: scroll; margin-top: 10px;   ">
+        <table mat-table [dataSource]="dataSource2" class="mat-elevation-z5" style="width:90%">
+        <ng-container  matColumnDef="total" >
+            <th mat-header-cell *matHeaderCellDef style="text-align: left;  min-width: 100px; font-weight: bold;">   </th>
+            <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: left;"> {{element.total}} </td>
+            <td mat-footer-cell *matFooterCellDef="let row" style="text-align: left;">Presupuesto - Total Egresos </td>
+            
+        </ng-container>
+
+        <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 80px; font-weight: bold;"> {{columna.titulo}}  </th>
+          <td mat-cell *matCellDef="let element" style="min-width: 50px;text-align: center;"> {{element[columna.name]|number:'.2-5'}} </td>
+          <td mat-footer-cell *matFooterCellDef="let row" > {{getExcess(columna.name)}} Bs</td>
+          
+        </ng-container>
+        
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsLimit" ></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsLimit;"></tr>
+        <tr mat-footer-row *matFooterRowDef="displayedColumnsLimit" class="example-first-footer-row"></tr>
       </table>
     </div>
 </mat-card>
