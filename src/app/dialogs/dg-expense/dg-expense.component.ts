@@ -48,7 +48,7 @@ export class DgExpenseComponent implements OnInit {
     {id:1,month:"Enero",year:2022,limit:1500},
     {id:2,month:"Diciembre",year:2021,limit:2500},
     {id:3,month:"Octubre",year:2021,limit:5000}] */
-    amountLimits=[]
+    amountLimits:any;
   registerExpense= this.formBuilder.group({
     idLimit:['',[Validators.required]],
     date:['',[Validators.required]],
@@ -73,7 +73,7 @@ export class DgExpenseComponent implements OnInit {
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
     this.user=this.data.user
-    this.loadLimits()
+    this.loadLimitsData()
     if(this.transform=='edit'){
       this.expense=this.data.expense;
       this.editExpense.get('date').setValue(this.expense?.date);
@@ -84,7 +84,7 @@ export class DgExpenseComponent implements OnInit {
 
     }
   }
-  loadLimits(){
+  loadLimitsData(){
     this.RequestService.get('api/limit/getAll/'+this.user.idUser).subscribe(r=>{
       this.amountLimits=r;
     })
