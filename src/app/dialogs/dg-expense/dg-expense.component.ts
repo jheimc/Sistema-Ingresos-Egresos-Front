@@ -176,7 +176,7 @@ export class DgExpenseComponent implements OnInit {
         if(this.transform=='register'){
           const Date=this.registerExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          //this.registerExpense.get('date').setValue(date)
+          this.registerExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
           
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
@@ -185,7 +185,7 @@ export class DgExpenseComponent implements OnInit {
         }else{
           const Date=this.editExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          //this.editExpense.get('date').setValue(date)
+          this.editExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.editExpense.get('month').setValue(months[this.month])
