@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-side-bar',
@@ -18,7 +19,8 @@ export class SideBarComponent implements OnInit {
   ROLE_USER_FINAL:boolean;
   constructor(
     public cookieService:CookieService,
-    private router:Router
+    private router:Router,
+    private RequestService:RequestService
   ) { }
 
   ngOnInit(): void {
@@ -27,6 +29,9 @@ export class SideBarComponent implements OnInit {
   logout(){
     this.cookieService.delete('token','/','localhost',false,'Lax')
     localStorage.clear()
+    this.RequestService.post("api/auth/logout",{}).subscribe(r=>{
+      console.log(r)
+    })
     window.location.reload();
     this.router.navigate(['/login']).then(() => {
       window.location.reload();

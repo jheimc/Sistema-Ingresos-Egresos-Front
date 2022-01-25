@@ -3,6 +3,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { CookieService } from 'ngx-cookie-service';
+import { RequestService } from 'src/app/services/request.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -20,7 +21,8 @@ export class NavBarComponent implements OnInit {
   constructor(
     public cookieService:CookieService,
     private router:Router,
-    private observer:BreakpointObserver
+    private observer:BreakpointObserver,
+    private RequestService:RequestService
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +39,9 @@ export class NavBarComponent implements OnInit {
   logout(){
     this.cookieService.delete('token','/','localhost',false,'Lax')
     localStorage.clear()
+    this.RequestService.post("api/auth/logout",{}).subscribe(r=>{
+      console.log(r)
+    })
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     });
