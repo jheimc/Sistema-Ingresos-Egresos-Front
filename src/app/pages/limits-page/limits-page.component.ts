@@ -83,7 +83,7 @@ export class LimitsPageComponent implements OnInit {
   makeDataSource(){
     var row={};var data=[]
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-    this.actualMonth=months[this.actualMonth]
+    //this.actualMonth=months[this.actualMonth]
     for(var i=0;i<12;i++){
       row=Object.assign(row,row[months[i]]="No asignado")
     }
@@ -99,7 +99,14 @@ export class LimitsPageComponent implements OnInit {
         this.idLimit=limit.id
       }
     })
-    if(this.actualMonth==month && this.actualYear==this.yearSelected){
+    var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
+    var idMonth:number;
+    for(var i=0;i<12;i++){
+      if(months[i]==month){
+        idMonth=i
+      }
+    }
+    if(idMonth>=this.actualMonth && this.actualYear==this.yearSelected){
       this.dialog.open(DgAddLimitComponent,{
         width: '70%',
         data:{

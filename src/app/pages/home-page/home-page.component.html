@@ -86,7 +86,7 @@
           </mat-form-field>
     </div>
     <h1>Gestión {{yearSelected}}</h1>
-    <div #ContainerRef style="width: 100%;max-width: 100%;">
+    <div #ContainerRef style="width: 100%;max-width: 100%; overflow-x: scroll;">
       <ngx-charts-bar-vertical-2d
       (window:resize)="resizeChart(ContainerRef.offsetWidth)"
       [view]="view"

@@ -48,19 +48,19 @@
       </table>
     </div>
     <mat-card-title style="text-align: left; margin-top: 50px;">Presupuestos</mat-card-title>
-    <div  style=" overflow: scroll; overflow-x: scroll; margin-top: 10px;   ">
-        <table mat-table [dataSource]="dataSource2" class="mat-elevation-z5" style="width:90%">
-        <ng-container  matColumnDef="total" >
+    <div  style=" overflow: scroll; overflow-x: scroll; margin-top: 10px; "*ngFor="let account of accounts">
+        <table mat-table [dataSource]="account.dataSource" class="mat-elevation-z5" style="width:90%">
+        <ng-container  matColumnDef="accountName" >
             <th mat-header-cell *matHeaderCellDef style="text-align: left;  min-width: 100px; font-weight: bold;">   </th>
-            <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: left;"> {{element.total}} </td>
-            <td mat-footer-cell *matFooterCellDef="let row" style="text-align: left;">Presupuesto - Total Egresos </td>
+            <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: left;"> {{element.accountName}} </td>
+            <td mat-footer-cell *matFooterCellDef="let row" style="text-align: left;">Limite - Total Cuenta </td>
             
         </ng-container>
 
         <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
           <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 80px; font-weight: bold;"> {{columna.titulo}}  </th>
           <td mat-cell *matCellDef="let element" style="min-width: 50px;text-align: center;"> {{element[columna.name]|number:'.2-5'}} </td>
-          <td mat-footer-cell *matFooterCellDef="let row" > {{getExcess(columna.name)}} Bs</td>
+          <td mat-footer-cell *matFooterCellDef="let row" > {{getExcess(columna.name,account)}} Bs</td>
           
         </ng-container>
         

@@ -11,6 +11,7 @@ import {DecimalPipe} from '@angular/common';
 import { DataSource } from '@angular/cdk/collections';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 type TableRow=[any,any,any,any,any,any,any,any,any,any,any,any,any,any]
+type TableRow2=[any,any,any,any,any,any,any,any,any,any,any,any,any]
 @Component({
   selector: 'app-report-expense-page',
   templateUrl: './report-expense-page.component.html',
@@ -34,9 +35,9 @@ export class ReportExpensePageComponent implements OnInit {
   allExpenses:any;
   actualYear:number;
   displayedColumns: string[] = [ 'accountName','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre','Totales'];
-  displayedColumnsLimit: string[] = [ 'total','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+  displayedColumnsLimit: string[] = [ 'accountName','Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
   dataSource =  new MatTableDataSource<any>([]);
-  dataSource2 =  new MatTableDataSource<any>([]);
+  
   dataPrint:any[];
   columnas=[
     
@@ -59,6 +60,12 @@ export class ReportExpensePageComponent implements OnInit {
   yearSelected:number;
   data:any;
   amountLimits:any;
+  accounts=[/* 
+    {dataSource: this.dataSource2,data:[]},
+    {dataSource: this.dataSource2,data:[]},
+    {dataSource: this.dataSource2,data:[]}, */
+  ]
+
   ngOnInit(): void {
     this.actualYear = new Date().getFullYear();
     this.yearSelected=this.actualYear;
@@ -82,18 +89,7 @@ export class ReportExpensePageComponent implements OnInit {
     this.loadExpenseReport()
   }
   loadExpenseReport(){
-    /* this.amountLimits=[
-      {id:1,month:"Enero",year:2022,limit:1500},
-      {id:2,month:"Diciembre",year:2021,limit:2500},
-      {id:3,month:"Octubre",year:2021,limit:5000}
-    ] */
-    /* this.dataSource2.data=[
-      {total:"Monto limite",Enero:1500,Febrero:0,Marzo:0,Abril:0,Mayo:0,Junio:0,Julio:0,Agosto:0,Septiembre:0,Octubre:0,Noviembre:0,Diciembre:0},
-      {total:"total General",Enero:1600,Febrero:0,Marzo:0,Abril:0,Mayo:0,Junio:0,Julio:0,Agosto:0,Septiembre:0,Octubre:0,Noviembre:0,Diciembre:0},
-    ] */
-    this.RequestService.get('api/limit/getAll/'+this.user.idUser).subscribe(r=>{
-      this.amountLimits=r;
-    })
+   this.accounts=[]
     this.RequestService.get('api/expense/expensesReport/'+this.user.idUser+'/'+this.yearSelected).subscribe(r=>{
     this.data=r ; 
     var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
@@ -122,46 +118,47 @@ export class ReportExpensePageComponent implements OnInit {
     })
     this.dataSource.data=dataConverted;
     this.dataPrint=dataConverted2
-    this.loadLimitChart(this.dataSource.data)
+    /* var data=[
+      {accountName:"Comida",
+        amount:[200,10,10,10,0,0,0,0,0,0,0,0],
+        limit:[150,0,200,1,0,0,0,0,0,0,0,0]
+      },
+      {accountName:"Transporte",
+        amount:[150,100,0,0,0,0,0,0,0,0,0,0],
+        limit:[250,10,100,10,10,0,0,0,0,0,0,0]
+      },
+    ] */
+    this.loadLimitChart(this.data,months)
     })
     
   }
-  loadLimitChart(data){
+  loadLimitChart(data,months){
     /* limits chart */
-    console.log(data)
-    var amountLimitsOfYear=[]
-    var limit={};var totals={}
-    var dataLimits=[]
-    var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-    limit={total:"Presupuesto"};
-    totals={total:"Total Egresos"}
-    this.amountLimits.map(a=>{
-      if(a.year==this.yearSelected){
-        amountLimitsOfYear.push(a)
+    
+    let row={}
+    data.map(expense=>{
+      var amount={}
+      var limit={}
+      var account={}
+      var total=0
+      var dataConverted=[];
+      account=Object.assign(account,{accountName:expense.accountName})
+      limit=Object.assign(limit,{accountName:"Limites"})
+      for(var i=0;i<12;i++){
+        total+=expense.amount[i]
+        amount[months[i]]=expense.amount[i];
+        account=Object.assign(account,amount);
+        limit=Object.assign(limit,limit[months[i]]=expense.limits[i])
       }
+      dataConverted.push(limit)
+      dataConverted.push(account)
+      var dataSource2 =  new MatTableDataSource<any>([]);
+      dataSource2.data=dataConverted
+       row={dataSource:dataSource2}
+      this.accounts.push(row)
     })
-    for(var i=0;i<12;i++){
-      var sum=0
-      data.map(d=>{
-        sum+=d[months[i]]
-      })
-      totals=Object.assign(totals,totals[months[i]]=sum)
-      amountLimitsOfYear.map(a=>{
-        if(months[i]==a.month){
-          limit=Object.assign(limit,limit[months[i]]=a.limit)
-        }else{
-          limit=Object.assign(limit,limit[months[i]]=0)
-        }
-      })
-      
+    
     }
-    amountLimitsOfYear.map(a=>{
-        limit=Object.assign(limit,limit[a.month]=a.limit)
-    })
-      dataLimits.push(limit)
-      dataLimits.push(totals)
-    this.dataSource2.data=dataLimits
-  }
   dataForPrint(){
     console.log(this.dataSource.data)
   }
@@ -169,9 +166,9 @@ export class ReportExpensePageComponent implements OnInit {
     
         return this.decimalPipe.transform(this.dataSource?.data.map(t => t[field]).reduce((acc, value) => acc + value, 0),'.2-5');
   }
-  getExcess(field:string) {
+  getExcess(field:string,account) {
     var total=0;var cont=0
-    this.dataSource2?.data.map(t => {
+    account.dataSource.data.map(t => {
       if(cont==0){
         total=t[field];cont++;
       }else{
@@ -195,9 +192,12 @@ export class ReportExpensePageComponent implements OnInit {
           pdf.add(new Txt('REPORTE DE EGRESOS').bold().alignment('center').fontSize(13).end);
           pdf.add(new Txt('Gestión '+this.yearSelected).bold().alignment('center').fontSize(12).end);
           pdf.add(pdf.ln(1));
-          
+          pdf.add(new Txt('EGRESOS ').margin([20,10]).alignment('left').fontSize(12).end);
             pdf.add(this.createTable(this.dataPrint))
-         
+            pdf.add(new Txt('PRESUPUESTOS POR CUENTA ').margin([20,10]).alignment('left').fontSize(12).end);
+            this.accounts.map(account=>{
+              pdf.add(this.createTable2(account.dataSource.data,account))
+            })
            pdf.create().open();
         
     }
@@ -225,6 +225,27 @@ export class ReportExpensePageComponent implements OnInit {
     extractData(data:any[]):TableRow[]{
         var index=1
         return data.map(row=>[row.accountName,row.Enero,row.Febrero,row.Marzo,row.Abril,row.Mayo,row.Junio,row.Julio,row.Agosto,row.Septiembre,row.Octubre,row.Noviembre,row.Diciembre,row.Totales])
+    }
+    createTable2(data: Item[],dat):ITable{
+      [{}]
+      var foot=['Limites - Total Cuenta',this.getExcess('Enero',dat),this.getExcess('Febrero',dat),this.getExcess('Marzo',dat),this.getExcess('Abril',dat),this.getExcess('Mayo',dat),this.getExcess('Junio',dat),this.getExcess('Julio',dat),this.getExcess('Agosto',dat)
+      ,this.getExcess('Septiembre',dat),this.getExcess('Octubre',dat),this.getExcess('Noviembre',dat),this.getExcess('Diciembre',dat)]
+        return new Table([
+        [ 'CUENTA', 'ENERO','FEBRERO','MARZO','ABRIL','MAYO','JUNIO','JULIO','AGOSTO','SEPTIEMBRE','OCTUBRE','NOVIEMBRE','DICIEMBRE'],
+        ...this.extractData2(data),foot,
+      ]).margin([20,10]).alignment('center').fontSize(10).layout({hLineColor:(rowIndex:number,node:any,columnIndex:number)=>{
+              return  '#c2c2c2';
+      },vLineColor:((rowIndex:number,node:any,columnIndex:number)=>{
+          return  '#c2c2c2';
+      }),fillColor:((rowIndex:number,node:any,columnIndex:number)=>{
+          return  rowIndex===0?'#c2c2c2':'';
+      })
+      }).end;
+    }
+  
+    extractData2(data:any[]):TableRow2[]{
+        var index=1
+        return data.map(row=>[row.accountName,row.Enero.toFixed(2),row.Febrero.toFixed(2),row.Marzo.toFixed(2),row.Abril.toFixed(2),row.Mayo.toFixed(2),row.Junio.toFixed(2),row.Julio.toFixed(2),row.Agosto.toFixed(2),row.Septiembre.toFixed(2),row.Octubre.toFixed(2),row.Noviembre.toFixed(2),row.Diciembre.toFixed(2)])
     }
 }
 

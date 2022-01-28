@@ -81,7 +81,6 @@ export class DgRestartPasswordComponent implements OnInit {
     }
 
   } 
-  
   updatePassword(){
     
       var dataUser={idUser:this.data.user.idUser,password:this.changePasswordUser.get('password').value}
