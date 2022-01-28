@@ -182,7 +182,7 @@
                     <div class="field">
                         <mat-form-field appearance="outline" style="width: 100%;">
                             <mat-label>Cuenta</mat-label>
-                            <mat-select formControlName="idExpense" (selectionChange)="onChangeAccount()" >
+                            <mat-select formControlName="idExpense" (selectionChange)="onChangeAccount()"[(ngModel)]="prueba" >
                         
                                 <ng-container >
                                     <mat-option  *ngFor="let expense of expenses" [value]="expense.idExpense">{{expense.expenseName}}</mat-option>

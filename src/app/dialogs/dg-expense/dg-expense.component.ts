@@ -36,6 +36,7 @@ export class DgExpenseComponent implements OnInit {
     selectAccount:any;
     limits:any;
     amount:number=0;
+    prueba:any;
     months:any[]=[
     {name:"Enero"},
     {name:"Febrero"},
@@ -73,7 +74,6 @@ export class DgExpenseComponent implements OnInit {
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
     this.user=this.data.user
-   // this.loadLimitsData()
     if(this.transform=='edit'){
       this.expense=this.data.expense;
       this.editExpense.get('date').setValue(this.expense?.date);
@@ -82,13 +82,9 @@ export class DgExpenseComponent implements OnInit {
       this.editExpense.controls['amount'].setValue(this.expense?.amount);
       this.editExpense.controls['comment'].setValue(this.expense?.comment);
       this.editExpense.controls['idExpense'].setValue(this.expense?.idExpenseUser);
-
+      /* this.selectDate=true;
+      this.onChangeAccount() */
     }
-  }
-  loadLimitsData(){
-    this.RequestService.get('api/limit/getAll/'+this.user.idUser).subscribe(r=>{
-      this.amountLimits=r;
-    })
   }
   fillDecimals(number, length) {
     function pad(input, length, padding) { 
@@ -197,13 +193,16 @@ export class DgExpenseComponent implements OnInit {
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.editExpense.get('month').setValue(months[this.month])
             this.month=months[this.month]
+            if(this.selectAccount){
+              this.onChangeAccount()
+            }
         }
       }
 
   changeFormat(event){
      console.log(event)
   }
-  onChangeAccount(){
+  onChangeAccount(){ 
     this.selectAccount=true;
     this.limitStatus=false;
     if(this.selectDate ){
@@ -228,7 +227,7 @@ export class DgExpenseComponent implements OnInit {
     this.totalAccount=0;
     console.log(this.data.allExpenses)
     this.data.allExpenses.map(expense=>{
-      if(expense.idExpenseUser==id && expense.month==this.month && expense.date.split("-")[0]==this.year.toString()){
+      if(expense.idExpense==id && expense.month==this.month && expense.date.split("-")[0]==this.year.toString()){
         this.totalAccount+=expense.amount
       }
     })

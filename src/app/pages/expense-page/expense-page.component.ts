@@ -70,6 +70,7 @@ export class ExpensePageComponent implements OnInit {
     console.log(expense)
     this.dialog.open(DgExpenseComponent,{
       width: '60%',
+      maxHeight:'98%',
       data:{
         user:this.user,
         expense:expense,
