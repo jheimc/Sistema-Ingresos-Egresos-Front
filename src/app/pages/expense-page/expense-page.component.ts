@@ -67,9 +67,11 @@ export class ExpensePageComponent implements OnInit {
     }); 
   }
   openEditExpense(expense){
+    console.log(expense)
     this.dialog.open(DgExpenseComponent,{
       width: '60%',
       data:{
+        user:this.user,
         expense:expense,
         expensesList:this.expenses,
         transform:'edit',

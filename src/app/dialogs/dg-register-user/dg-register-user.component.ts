@@ -114,7 +114,7 @@ export class DgRegisterUserComponent implements OnInit {
     this.RequestService.post('api/user/createUser', user)
     .subscribe({
       next:()=>{
-        this.snack.open('Usuario registrada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
+        this.snack.open('Usuario registrado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
     
       },

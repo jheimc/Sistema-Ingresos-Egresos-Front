@@ -50,9 +50,8 @@ export class DgExpenseComponent implements OnInit {
     {id:3,month:"Octubre",year:2021,limit:5000}] */
     amountLimits:any;
   registerExpense= this.formBuilder.group({
-    idLimit:['',[Validators.required]],
     date:['',[Validators.required]],
-    month:[{value: '', disabled: true},Validators.required],
+    month:['',Validators.required],
     concept:['',[Validators.required]],
     amount:['',[Validators.required]],
     comment:['',[Validators.required]],
@@ -60,9 +59,8 @@ export class DgExpenseComponent implements OnInit {
 
   });
   editExpense = this.formBuilder.group({
-    idLimit:['',[Validators.required]],
     date:['',[Validators.required]],
-    month:[{value: '', disabled: true},[Validators.required]],
+    month:['',[Validators.required]],
     concept:['',[Validators.required]],
     amount:['',[Validators.required]],
     comment:['',[Validators.required]],
@@ -111,7 +109,7 @@ export class DgExpenseComponent implements OnInit {
     .subscribe({
       next:()=>{
         this.snack.open('Egreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-       // window.location.reload();
+       window.location.reload();
     
       },
       error:()=>{
@@ -182,6 +180,7 @@ export class DgExpenseComponent implements OnInit {
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
           this.loadLimits(months[this.month],event.value.getFullYear())  
           this.registerExpense.get('month').setValue(months[this.month])
+          console.log(this.registerExpense.get('month'))
         }else{
           const Date=this.editExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
@@ -203,10 +202,11 @@ export class DgExpenseComponent implements OnInit {
         this.limitStatus=true;
         this.limit=limit.limit;
         this.idLimit=limit.id;
-        this.registerExpense.get('idLimit').setValue(this.idLimit)
+       // this.registerExpense.get('idLimit').setValue(this.idLimit)
       }
     })
     if(this.limitStatus){
+      console.log(this.data.allExpenses)
       this.data.allExpenses.map(expense=>{
         if(expense.month==month && expense.date.split("-")[0]==year.toString()){
           this.totalMonth+=expense.amount

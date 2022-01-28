@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroupDirective, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { DgForgetPasswordComponent } from 'src/app/dialogs/dg-forget-password/dg-forget-password.component';
@@ -28,6 +29,7 @@ export class LoginPageComponent implements OnInit {
       private cookieService: CookieService,
       private router: Router,
       public dialog: MatDialog,
+      private sanitizer: DomSanitizer
     ) { 
       this.loadDataConfigurations();
     }
@@ -93,9 +95,8 @@ export class LoginPageComponent implements OnInit {
   }
   loadDataConfigurations(){
     this.RequestService.get("api/setting/getSetting").subscribe(r=>{
-    //console.log(r)
-    this.dataConfiguration=r
-    })
+      this.dataConfiguration=r
+    }) 
   }
   }
   
