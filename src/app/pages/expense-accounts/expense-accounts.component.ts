@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { Router } from '@angular/router';
 import { DgCreateExpenseAccountComponent } from 'src/app/dialogs/dg-create-expense-account/dg-create-expense-account.component';
 import { RequestService } from 'src/app/services/request.service';
 
@@ -15,7 +16,8 @@ export class ExpenseAccountsComponent implements OnInit {
   constructor(
     public dialog: MatDialog, 
     private RequestService: RequestService,
-    private snack:MatSnackBar,) { }
+    private snack:MatSnackBar,
+    private router:Router) { }
  
   usersResponse:any;
   user:any;
@@ -76,5 +78,8 @@ export class ExpenseAccountsComponent implements OnInit {
         this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
       } */
     });
+  }
+  goLimits(idExpense){
+    this.router.navigate(["home/expense-accounts/limits",idExpense])
   }
 }

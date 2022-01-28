@@ -26,7 +26,7 @@
             <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
                 <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteExpense(element.idExpense)">delete_outline</mat-icon>
             </button>
-
+            <span class="fake-link" id="fake-link-1" (click)="goLimits(element.idExpense)">Asignar limites</span>
          </td>
         <td mat-footer-cell *matFooterCellDef></td>
     </ng-container>

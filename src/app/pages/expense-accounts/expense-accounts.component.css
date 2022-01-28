@@ -29,3 +29,8 @@ h3{
 ::ng-deep .snackSuccess {
   background-color: #41a812;
 }
+.fake-link {
+  color: blue;
+  text-decoration: underline;
+  cursor: pointer;
+}

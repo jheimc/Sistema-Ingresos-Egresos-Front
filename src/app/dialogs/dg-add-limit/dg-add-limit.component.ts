@@ -33,19 +33,18 @@ export class DgAddLimitComponent implements OnInit {
 
   ngOnInit(): void {
     this.transform=this.data.transform;
-    this.limitData=this.data;
-    this.limit.controls['month'].setValue(this.limitData?.month);
-      this.limit.controls['year'].setValue(this.limitData?.year);
+    this.limit.controls['month'].setValue(this.data?.month);
+      this.limit.controls['year'].setValue(this.data?.year);
     if(this.transform=='edit'){
-      this.limitEdit.controls['limit'].setValue(this.limitData?.limit);
-      this.limitEdit.controls['month'].setValue(this.limitData?.month);
-      this.limitEdit.controls['year'].setValue(this.limitData?.year);
+      this.limitEdit.controls['limit'].setValue(this.data?.limit);
+      this.limitEdit.controls['month'].setValue(this.data?.month);
+      this.limitEdit.controls['year'].setValue(this.data?.year);
 
     }
   }
   sendLimit(limit){
     console.log(limit)
-     this.RequestService.post("api/limit/store/"+this.data.user.idUser,limit).subscribe({
+     this.RequestService.post("api/limit/store/"+this.data.idExpense,limit).subscribe({
       next:()=>{
         this.snack.open('Limite añadido exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
@@ -57,14 +56,17 @@ export class DgAddLimitComponent implements OnInit {
       }
     }) 
   }
-  updateLimit(expense){
-    this.RequestService.put("api/expense/updateExpense/"+this.limitData.idExpense,expense).subscribe({
+  updateLimit(limit){
+    console.log(limit)
+    limit={idLimit:this.data.idLimit,limit:limit.limit}
+    console.log(limit)
+    this.RequestService.put("api/limit/updateLimit",limit).subscribe({
       next:()=>{
-        this.snack.open('Cuenta actualizada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
+        this.snack.open('Limite actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
         window.location.reload();
       },
       error:()=>{
-        this.snack.open('Error al actualizar cuenta.','CERRAR',{duration:5000,panelClass:'snackError',})
+        this.snack.open('Error al actualizar el limite.','CERRAR',{duration:5000,panelClass:'snackError',})
         //window.location.reload();
 
       }

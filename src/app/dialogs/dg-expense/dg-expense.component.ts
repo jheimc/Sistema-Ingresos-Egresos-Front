@@ -28,8 +28,14 @@ export class DgExpenseComponent implements OnInit {
     limitStatus:boolean=false;
     limit:number;
     totalMonth:number;
+    totalAccount:number=0;
     idLimit:number;
+    selectDate=false;
     month:any;
+    year:any;
+    selectAccount:any;
+    limits:any;
+    amount:number=0;
     months:any[]=[
     {name:"Enero"},
     {name:"Febrero"},
@@ -44,10 +50,6 @@ export class DgExpenseComponent implements OnInit {
     {name:"Noviembre"},
     {name:"Diciembre"},
   ]
-  /* amountLimits=[
-    {id:1,month:"Enero",year:2022,limit:1500},
-    {id:2,month:"Diciembre",year:2021,limit:2500},
-    {id:3,month:"Octubre",year:2021,limit:5000}] */
     amountLimits:any;
   registerExpense= this.formBuilder.group({
     date:['',[Validators.required]],
@@ -71,7 +73,7 @@ export class DgExpenseComponent implements OnInit {
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
     this.user=this.data.user
-    this.loadLimitsData()
+   // this.loadLimitsData()
     if(this.transform=='edit'){
       this.expense=this.data.expense;
       this.editExpense.get('date').setValue(this.expense?.date);
@@ -79,6 +81,7 @@ export class DgExpenseComponent implements OnInit {
       this.editExpense.controls['concept'].setValue(this.expense?.concept);
       this.editExpense.controls['amount'].setValue(this.expense?.amount);
       this.editExpense.controls['comment'].setValue(this.expense?.comment);
+      this.editExpense.controls['idExpense'].setValue(this.expense?.idExpenseUser);
 
     }
   }
@@ -171,16 +174,21 @@ export class DgExpenseComponent implements OnInit {
   }
 
   addEvent(event: MatDatepickerInputEvent<Date>) {
+      this.selectDate=true;
         if(this.transform=='register'){
           const Date=this.registerExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
           this.registerExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
-          
+          this.year=event.value.getFullYear()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
-          this.loadLimits(months[this.month],event.value.getFullYear())  
+         // this.loadLimits(months[this.month],event.value.getFullYear())  
           this.registerExpense.get('month').setValue(months[this.month])
-          console.log(this.registerExpense.get('month'))
+          this.month=months[this.month]
+          if(this.selectAccount){
+            this.onChangeAccount()
+          }
+         // console.log(this.registerExpense.get('month'))
         }else{
           const Date=this.editExpense.get('date').value;
           const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
@@ -188,12 +196,44 @@ export class DgExpenseComponent implements OnInit {
           this.month=event.value.getMonth()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.editExpense.get('month').setValue(months[this.month])
+            this.month=months[this.month]
         }
       }
 
   changeFormat(event){
      console.log(event)
   }
+  onChangeAccount(){
+    this.selectAccount=true;
+    this.limitStatus=false;
+    if(this.selectDate ){
+      this.RequestService.get("api/limit/getByAccount/"+this.registerExpense.get('idExpense').value+"/"+this.year).subscribe(res=>{
+        this.limits=res;
+        this.limits.map(limit=>{
+          if(this.month==limit.month && this.year==limit.year){
+            this.getTotalAccount(this.registerExpense.get('idExpense').value)
+            this.limitStatus=true;
+            this.limit=limit.limit;
+            this.idLimit=limit.id;
+          }
+        })
+        if(this.limitStatus==false){
+          this.openLimit(this.month,this.year,this.registerExpense.get('idExpense').value)
+        }
+      })
+    }
+  }
+
+  getTotalAccount(id){
+    this.totalAccount=0;
+    console.log(this.data.allExpenses)
+    this.data.allExpenses.map(expense=>{
+      if(expense.idExpenseUser==id && expense.month==this.month && expense.date.split("-")[0]==this.year.toString()){
+        this.totalAccount+=expense.amount
+      }
+    })
+  }
+
   loadLimits(month,year){
     this.limitStatus=false;
     this.totalMonth=0
@@ -213,14 +253,15 @@ export class DgExpenseComponent implements OnInit {
         }
       })
     }else{
-      this.openLimit(month,year)
+      //this.openLimit(month,year)
     }
 
   }
-  openLimit(month,year){
+  openLimit(month,year,idExpense){
       this.dialog.open(DgAddLimitComponent,{
         width: '70%',
         data:{
+          idExpense:idExpense,
           user:this.user,
           month:month,
           year:year,
@@ -228,6 +269,24 @@ export class DgExpenseComponent implements OnInit {
         }
       });
     this.dialogRef.close() 
+  }
+  openEditLimit(){
+    this.dialog.open(DgAddLimitComponent,{
+      width: '70%',
+      data:{
+        idExpense:this.registerExpense.get('idExpense').value,
+        user:this.user,
+        month:this.month,
+        year:this.year,
+        limit:this.limit,
+        idLimit:this.idLimit,
+        transform:"edit",
+      }
+    });
+    this.dialogRef.close() 
+  }
+  amountChange(value){
+    this.amount=this.registerExpense.get('amount').value
   }
 }
 

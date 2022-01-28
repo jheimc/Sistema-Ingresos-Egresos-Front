@@ -1,0 +1,37 @@
+table {
+    width: 100%;
+  }
+
+h3{
+  color:#575757;
+  font-family:Montserrat;
+  font-weight:800;
+  line-height:16px;
+  margin:15px 0px 3px;
+}
+h1{
+    color:#575757;
+    font-family:Montserrat;
+    font-weight:800;
+    line-height:25px;
+    margin:20px;
+  }
+.mat-form-field {
+    font-size: initial;
+}
+tr.mat-footer-row {
+    font-weight: bold;
+    background-color: #ebebeb;
+  }
+  .mat-cell, .mat-footer-cell {
+    font-size: 12px;
+}
+.make-red {
+  background-color: gold
+}
+.mat-button{
+    margin: 2px;
+}
+::ng-deep .snackError {
+    background-color: #c91919;
+  }

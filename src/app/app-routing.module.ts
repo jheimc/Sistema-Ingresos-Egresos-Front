@@ -5,6 +5,7 @@ import { ExpensePageComponent } from './pages/expense-page/expense-page.componen
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { IncomeAccountsComponent } from './pages/income-accounts/income-accounts.component';
 import { IncomePageComponent } from './pages/income-page/income-page.component';
+import { LimitsPageComponent } from './pages/limits-page/limits-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { ManageUserComponent } from './pages/manage-user/manage-user.component';
 import { ReportExpensePageComponent } from './pages/report-expense-page/report-expense-page.component';
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path:'home/report/income',component:ReportIncomePageComponent,canActivate:[UserGuard]},
   {path:'home/user',component:UserProfilePageComponent,canActivate:[UserGuard]},
   {path:'home/settings',component:SettingsComponent,canActivate:[UserGuard]},
+  {path:'home/expense-accounts/limits/:id',component:LimitsPageComponent,canActivate:[UserGuard]},
 ];
 
 @NgModule({
