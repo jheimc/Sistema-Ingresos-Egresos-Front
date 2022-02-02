@@ -22,6 +22,7 @@ export class DgExpenseComponent implements OnInit {
     private dialogRef: MatDialogRef<DgExpenseComponent>,
   ) { }
     transform:any;
+    date:any;
     expenses:any;
     expense:any;
     user:any;
@@ -70,20 +71,26 @@ export class DgExpenseComponent implements OnInit {
     idExpense:['',[]],
   })
   ngOnInit(): void {
-    
+    this.dialogRef.updateSize('80%', '90%');
     this.transform=this.data.transform;
     this.expenses=this.data.expensesList;
     this.user=this.data.user
     if(this.transform=='edit'){
       this.expense=this.data.expense;
-      this.editExpense.get('date').setValue(this.expense?.date);
+      let fechaDate = new Date(this.expense?.date + ' 0:00:00')
+      this.editExpense.get('date').setValue(fechaDate);
       this.editExpense.controls['month'].setValue(this.expense?.month);
       this.editExpense.controls['concept'].setValue(this.expense?.concept);
       this.editExpense.controls['amount'].setValue(this.expense?.amount);
       this.editExpense.controls['comment'].setValue(this.expense?.comment);
-      this.editExpense.controls['idExpense'].setValue(this.expense?.idExpenseUser);
+      
       /* this.selectDate=true;
       this.onChangeAccount() */
+      this.expenses.map(e=>{
+        if(e.expenseName==this.expense.expenseAccount){
+          this.editExpense.controls['idExpense'].setValue(e.idExpense);
+        }
+      })
     }
   }
   fillDecimals(number, length) {
@@ -100,11 +107,11 @@ export class DgExpenseComponent implements OnInit {
     return integer + '.' + decimals;
   }
   saveExpense(expense,formDirective: FormGroupDirective){
-    console.log("Esta es ingreso a regstrar",expense);
+    this.registerExpense.get('date').setValue(this.date)
     if(expense.amount+this.totalMonth>this.limit){
       this.snack.open('Excedio el limite del mes.','CERRAR',{duration:15000,panelClass:'warning',})
     }
-     this.RequestService.post('api/expenseUser/registerExpense/'+this.user.idUser, expense)
+     this.RequestService.post('api/expenseUser/registerExpense/'+this.user.idUser, this.registerExpense.value)
     .subscribe({
       next:()=>{
         this.snack.open('Egreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -119,8 +126,8 @@ export class DgExpenseComponent implements OnInit {
     
   }
   saveEditExpense(update,formDirective: FormGroupDirective){
-    console.log(update)
-    this.RequestService.put('api/expenseUser/updateExpenseOfUser/'+this.expense.idExpenseUser, update)
+    this.editExpense.get('date').setValue(this.date)
+    this.RequestService.put('api/expenseUser/updateExpenseOfUser/'+this.expense.idExpenseUser, this.editExpense.value)
     .subscribe({
       next:()=>{
         this.snack.open('Egreso actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -173,8 +180,8 @@ export class DgExpenseComponent implements OnInit {
       this.selectDate=true;
         if(this.transform=='register'){
           const Date=this.registerExpense.get('date').value;
-          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          this.registerExpense.get('date').setValue(date)
+          this.date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+         // this.registerExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
           this.year=event.value.getFullYear()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
@@ -187,8 +194,8 @@ export class DgExpenseComponent implements OnInit {
          // console.log(this.registerExpense.get('month'))
         }else{
           const Date=this.editExpense.get('date').value;
-          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          this.editExpense.get('date').setValue(date)
+          this.date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+          //this.editExpense.get('date').setValue(date)
           this.month=event.value.getMonth()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.editExpense.get('month').setValue(months[this.month])

@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { DgCreateIncomeAccountComponent } from 'src/app/dialogs/dg-create-income-account/dg-create-income-account.component';
+import { DgMessageComponent } from 'src/app/dialogs/dg-message/dg-message.component';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -65,17 +66,19 @@ export class IncomeAccountsComponent implements OnInit {
       }
     });
   }
-  deleteIncome(idIncome){
-    console.log(idIncome)
-    this.RequestService.put('api/income/deleteIncome/'+idIncome,{})
-    .subscribe({
-      error:()=>{
-        this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        window.location.reload();
-      },
-      /* error:()=>{
-        this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
-      } */
-    });
+  deleteIncome(idIncome,name){
+    console.log(name)
+    this.openMessage(idIncome,name)
   }
+  openMessage(idIncome,name){
+    this.dialog.open(DgMessageComponent,{
+      width: '70%',
+      data:{
+        idIncome:idIncome,
+        user:this.user,
+        incomeName:name,
+        account:'income'
+      }
+    });
+}
 }

@@ -23,7 +23,7 @@
                     <mat-icon style="color:#0460ca;"  (click)="openEditIncome(element)">edit</mat-icon>
                 </button>
                 <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
-                    <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteIncome(element.idIncome)">delete_outline</mat-icon>
+                    <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteIncome(element.idIncome,element.incomeName)">delete_outline</mat-icon>
                 </button>
 
              </td>

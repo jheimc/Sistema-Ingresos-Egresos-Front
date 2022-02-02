@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { DgCreateExpenseAccountComponent } from 'src/app/dialogs/dg-create-expense-account/dg-create-expense-account.component';
+import { DgMessageComponent } from 'src/app/dialogs/dg-message/dg-message.component';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -67,19 +68,21 @@ export class ExpenseAccountsComponent implements OnInit {
       }
     });
   }
-  deleteExpense(idExpense){
-    this.RequestService.put('api/expense/deleteExpense/'+idExpense,{})
-    .subscribe({
-      error:()=>{
-        this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        window.location.reload();
-      },
-      /* error:()=>{
-        this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
-      } */
-    });
+  deleteExpense(idExpense,name){
+    this.openMessage(idExpense,name)
   }
   goLimits(idExpense){
     this.router.navigate(["home/expense-accounts/limits",idExpense])
   }
+  openMessage(idExpense,name){
+    this.dialog.open(DgMessageComponent,{
+      width: '70%',
+      data:{
+        idExpense:idExpense,
+        user:this.user,
+        expenseName:name,
+        account:'expense'
+      }
+    });
+}
 }

@@ -20,6 +20,7 @@ export class DgIncomeComponent implements OnInit {
     private snack:MatSnackBar,
   ) { }
     transform:any;
+    date:any;
     incomes:any;
     income:any;
     user:any;
@@ -56,23 +57,29 @@ export class DgIncomeComponent implements OnInit {
     idIncome:['',[]],
   })
   ngOnInit(): void {
-   console.log(this.data)
+   
     this.transform=this.data.transform;
     this.incomes=this.data.incomesList;
     this.user=this.data.user
     if(this.transform=='edit'){
       this.income=this.data.income;
-      this.editIncome.get('date').setValue(this.income?.date);
+      let fechaDate = new Date(this.income?.date + ' 0:00:00')
+      this.editIncome.get('date').setValue(fechaDate);
       this.editIncome.controls['month'].setValue(this.income?.month);
       this.editIncome.controls['concept'].setValue(this.income?.concept);
       this.editIncome.controls['amount'].setValue(this.income?.amount);
       this.editIncome.controls['comment'].setValue(this.income?.comment);
-
+      this.incomes.map(i=>{
+        if(i.incomeName==this.income?.incomeAccount){
+          this.editIncome.controls['idIncome'].setValue(i.idIncome);
+        }
+      })
     }
   }
   
   saveIncome(income,formDirective: FormGroupDirective){
-    this.RequestService.post('api/incomeUser/registerIncome/'+this.user.idUser, income)
+    this.registerIncome.get('date').setValue(this.date)
+    this.RequestService.post('api/incomeUser/registerIncome/'+this.user.idUser, this.registerIncome.value)
     .subscribe({
       next:()=>{
         this.snack.open('Ingreso creado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -85,9 +92,8 @@ export class DgIncomeComponent implements OnInit {
     });
   }
   saveEditIncome(update,formDirective: FormGroupDirective){
-
-    console.log(update)
-    this.RequestService.put('api/incomeUser/updateIncomeOfUser/'+this.income.idIncomeUser, update)
+    this.editIncome.get('date').setValue(this.date)
+    this.RequestService.put('api/incomeUser/updateIncomeOfUser/'+this.income.idIncomeUser, this.editIncome.value)
     .subscribe({
       next:()=>{
         this.snack.open('Ingreso actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -136,17 +142,19 @@ export class DgIncomeComponent implements OnInit {
       )  }
 
       addEvent(event: MatDatepickerInputEvent<Date>) {
+        console.log(event.value)
         if(this.transform=='register'){
           const Date=this.registerIncome.get('date').value;
-          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          this.registerIncome.get('date').setValue(date)
+          this.date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+          
+         //this.registerIncome.get('date').setValue(date)
           this.month=event.value.getMonth()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.registerIncome.get('month').setValue(months[this.month])
         }else{
           const Date=this.editIncome.get('date').value;
-          const date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
-          this.editIncome.get('date').setValue(date)
+          this.date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];
+          //this.editIncome.get('date').setValue(date)
           this.month=event.value.getMonth()
           var months=['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre']
             this.editIncome.get('month').setValue(months[this.month])

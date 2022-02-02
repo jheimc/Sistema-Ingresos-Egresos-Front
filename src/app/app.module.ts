@@ -58,6 +58,7 @@ import { MaskDirective } from './directives/mask.directive';
 import { Decimal2Directive } from './directives/decimal2.directive';
 import { DgAddLimitComponent } from './dialogs/dg-add-limit/dg-add-limit.component';
 import { LimitsPageComponent } from './pages/limits-page/limits-page.component';
+import { DgMessageComponent } from './dialogs/dg-message/dg-message.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -88,7 +89,8 @@ import { LimitsPageComponent } from './pages/limits-page/limits-page.component';
     MaskDirective,
     Decimal2Directive,
     DgAddLimitComponent,
-    LimitsPageComponent
+    LimitsPageComponent,
+    DgMessageComponent
   ],
   imports: [
     BrowserModule,

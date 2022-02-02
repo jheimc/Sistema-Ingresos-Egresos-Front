@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { map } from 'rxjs/operators';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -15,11 +16,19 @@ export class DgCreateIncomeAccountComponent implements OnInit {
   incomeData:any;
   income=this.formBuilder.group({
     
-    incomeName:['',[Validators.required]],
+    incomeName:['',{
+      validators:[Validators.required], 
+      asyncValidators:[this.incomeCheck()],
+        updateOn: 'change'
+    }],
   })
   incomeEdit=this.formBuilder.group({
     
-    incomeName:['',[Validators.required]],
+    incomeName:['',{
+      validators:[Validators.required], 
+      asyncValidators:[this.incomeCheck()],
+        updateOn: 'change'
+    }],
   })
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -31,14 +40,12 @@ export class DgCreateIncomeAccountComponent implements OnInit {
   ngOnInit(): void {
     this.transform=this.data.transform;
     this.incomeData=this.data.income;
-    console.log(this.data.income)
     if(this.transform=='edit'){
       this.incomeEdit.controls['incomeName'].setValue(this.incomeData?.incomeName);
 
     }
   }
   sendIncome(income){
-    console.log(income)
     this.RequestService.post("api/income/createIncome/"+this.data.user.idUser,income).subscribe({
       next:()=>{
         this.snack.open('Cuenta creada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -63,5 +70,43 @@ export class DgCreateIncomeAccountComponent implements OnInit {
 
       }
     })
+  }
+  incomeCheck(): AsyncValidatorFn{
+    return (control: AbstractControl) => {
+    return this.RequestService.get('api/income/noExistsIncomeName/'+control.value)
+      .pipe(
+        map((result) => (result==true) ?  null : {exist:!result})
+        );
+      
+    };
+  }
+  getErrorMessage(field: string,funct:string):string{
+    let message;
+    if(funct=='register'){
+      if(this.income?.get(field).errors?.required){
+        message="Este campo es requerido"
+      }else if(this.income?.get(field).hasError('exist')){
+        message="esta cuenta ya esta registrada"
+      }
+    }else if(funct=='edit'){
+      if(this.income?.get(field).errors?.required){
+        message="Este campo es requerido"
+      }else if(this.incomeEdit?.get(field).hasError('exist')){
+        message="esta cuenta ya esta registrada"
+      }
+    }
+    return message
+  }
+  isValidField(field: string):boolean{
+    return(
+      (this.income.get(field).touched || this.income.get(field).dirty) &&
+       !this.income.get(field).valid
+    )  
+  }
+  isValidFieldEdit(field: string):boolean{
+    return(
+      (this.incomeEdit.get(field).touched || this.incomeEdit.get(field).dirty) &&
+       !this.incomeEdit.get(field).valid
+    )  
   }
 }

@@ -10,7 +10,7 @@
         <mat-form-field  appearance="outline" style="width: 100%;">
         <mat-label>Cuenta</mat-label>
         <input matInput placeholder="Ingresa el nombre de la cuenta" required type="text" formControlName='incomeName'>
-        <mat-error >este campo es requerido</mat-error>
+        <mat-error *ngIf="isValidField('incomeName')">{{getErrorMessage('incomeName','register')}}</mat-error>
         </mat-form-field>
     </div>
     <div class="links">
@@ -32,7 +32,7 @@
         <mat-form-field  appearance="outline" style="width: 100%;">
         <mat-label>Cuenta</mat-label>
         <input matInput placeholder="Ingresa el nombre de la cuenta" required type="text" formControlName='incomeName'>
-        <mat-error >este campo es requerido</mat-error>
+        <mat-error *ngIf="isValidFieldEdit('incomeName')">{{getErrorMessage('incomeName','edit')}}</mat-error>
         </mat-form-field>
     </div>
     <div class="links">

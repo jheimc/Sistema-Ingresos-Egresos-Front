@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { map } from 'rxjs/operators';
 import { RequestService } from 'src/app/services/request.service';
 
 @Component({
@@ -15,11 +16,20 @@ export class DgCreateExpenseAccountComponent implements OnInit {
   expenseData:any;
   expense=this.formBuilder.group({
     
-    expenseName:['',[Validators.required]],
+    expenseName:['',
+    {
+      validators:[Validators.required], 
+      asyncValidators:[this.expenseCheck()],
+        updateOn: 'change'
+    }],
   })
   expenseEdit=this.formBuilder.group({
     
-    expenseName:['',[Validators.required]],
+    expenseName:['',{
+      validators:[Validators.required], 
+      asyncValidators:[this.expenseCheck()],
+        updateOn: 'change'
+    }],
   })
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -37,7 +47,7 @@ export class DgCreateExpenseAccountComponent implements OnInit {
     }
   }
   sendExpense(expense){
-    console.log(expense)
+   
     this.RequestService.post("api/expense/createExpense/"+this.data.user.idUser,expense).subscribe({
       next:()=>{
         this.snack.open('Cuenta creada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -62,6 +72,44 @@ export class DgCreateExpenseAccountComponent implements OnInit {
 
       }
     })
+  }
+  expenseCheck(): AsyncValidatorFn{
+    return (control: AbstractControl) => {
+    return this.RequestService.get('api/expense/noExistsExpenseName/'+control.value)
+      .pipe(
+        map((result) => (result==true) ?  null : {exist:!result})
+        );
+      
+    };
+  }
+  getErrorMessage(field: string,funct:string):string{
+    let message;
+    if(funct=='register'){
+      if(this.expense?.get(field).errors?.required){
+        message="Este campo es requerido"
+      }else if(this.expense?.get(field).hasError('exist')){
+        message="esta cuenta ya esta registrada"
+      }
+    }else if(funct=='edit'){
+      if(this.expenseEdit?.get(field).errors?.required){
+        message="Este campo es requerido"
+      }else if(this.expenseEdit?.get(field).hasError('exist')){
+        message="esta cuenta ya esta registrada"
+      }
+    }
+    return message
+  }
+  isValidField(field: string):boolean{
+    return(
+      (this.expense.get(field).touched || this.expense.get(field).dirty) &&
+       !this.expense.get(field).valid
+    )  
+  }
+  isValidFieldEdit(field: string):boolean{
+    return(
+      (this.expenseEdit.get(field).touched || this.expenseEdit.get(field).dirty) &&
+       !this.expenseEdit.get(field).valid
+    )  
   }
 }
 
