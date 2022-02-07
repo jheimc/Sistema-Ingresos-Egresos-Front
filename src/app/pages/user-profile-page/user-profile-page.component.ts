@@ -28,7 +28,6 @@ export class UserProfilePageComponent implements OnInit {
   loadDataUser(){
     this.RequestService.get('api/user/getDataUser/'+this.user.idUser)
      .subscribe(r=>{
-       console.log(r);
        this.userData = r;
      })
   }

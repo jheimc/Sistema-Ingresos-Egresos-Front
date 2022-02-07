@@ -3,16 +3,40 @@
         <mat-card-title><mat-icon>subject</mat-icon> Ingresos</mat-card-title>
       </mat-card-header>
       <mat-divider></mat-divider>
-      <a mat-button class="btn-catalog"(click)="openIncome()">
-        <mat-icon>add_circle_outline</mat-icon>
-        <span> Nuevo ingreso</span>
       
-    </a>
-    <div  style=" overflow: scroll; overflow-x: scroll; ">
+        <a mat-button class="btn-catalog"(click)="openIncome()">
+          <mat-icon>add_circle_outline</mat-icon>
+          <span> Nuevo ingreso</span>
+        </a>
+      <div class="filters" [formGroup]="searchForm">
+        <a  class="btn-catalog2">
+          <mat-icon>search</mat-icon>
+          <span> Buscar por:</span>
+        </a>
+        <mat-form-field appearance="fill" class="date-picker">
+          <mat-label>Ingresa un rango de fechas</mat-label>
+          <mat-date-range-input  [rangePicker]="picker">
+            <input matStartDate  formControlName="dateOfStart" placeholder="Start date" (dateInput)="applyFilter()">
+            <input matEndDate   formControlName="dateOfEnd"  placeholder="End date" (dateInput)="applyFilter()">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="field-filter">
+          <mat-label>Buscar por cuenta</mat-label>
+          <mat-select disableRipple formControlName="account" (selectionChange)="applyFilter()">
+              <mat-option value="">Todos</mat-option>
+              <mat-option *ngFor="let account of incomes"[value]="account.incomeName">{{account.incomeName}}</mat-option>
+
+            </mat-select>
+        </mat-form-field>
+      </div>
+      
+    <div  style=" overflow: scroll; overflow-x: scroll;">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z5" style="width:100%">
 
         <ng-container *ngFor="let columna of columnas" matColumnDef="{{columna.name}}" >
-          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 100px; font-weight: bold;"> {{columna.titulo}}  </th>
+          <th mat-header-cell *matHeaderCellDef style="text-align: center;  min-width: 80px; font-weight: bold;"> {{columna.titulo}}  </th>
           <td mat-cell *matCellDef="let element" style="min-width: 85px;text-align: center;"> {{element[columna.name]}} </td>
         </ng-container>
         <ng-container  matColumnDef="amount" >
@@ -35,9 +59,9 @@
                 <button mat-icon-button matSuffix  matTooltip="Editar">
                     <mat-icon style="color:#0460ca;"  (click)="openEditIncome(element)">edit</mat-icon>
                 </button>
-                <!-- <button mat-icon-button matSuffix matTooltip="Dar de baja" [disabled]="element.index==1">
-                    <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteIncome(element.idIncome)">delete_outline</mat-icon>
-                </button> -->
+                <button mat-icon-button matSuffix matTooltip="Eliminar" [disabled]="element.index==1">
+                  <mat-icon style="color:rgb(197, 33, 33)" (click)="deleteIncome(element.idIncomeUser)">delete_outline</mat-icon>
+              </button>
 
              </td>
             <td mat-footer-cell *matFooterCellDef></td>
@@ -45,7 +69,11 @@
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="8">No se encontró datos</td>
+        </tr>
       </table>
+      <mat-paginator [pageSize]="10" [pageSizeOptions]="[10,25,50, 100]" aria-label="Select page of orders"></mat-paginator>
     </div>
 
 </mat-card>

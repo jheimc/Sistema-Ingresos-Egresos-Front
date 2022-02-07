@@ -142,7 +142,6 @@ export class DgIncomeComponent implements OnInit {
       )  }
 
       addEvent(event: MatDatepickerInputEvent<Date>) {
-        console.log(event.value)
         if(this.transform=='register'){
           const Date=this.registerIncome.get('date').value;
           this.date = (Date === null || Date === '') ? '' : Date.toISOString().split('T')[0];

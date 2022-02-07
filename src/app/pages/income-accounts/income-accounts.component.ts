@@ -67,7 +67,6 @@ export class IncomeAccountsComponent implements OnInit {
     });
   }
   deleteIncome(idIncome,name){
-    console.log(name)
     this.openMessage(idIncome,name)
   }
   openMessage(idIncome,name){

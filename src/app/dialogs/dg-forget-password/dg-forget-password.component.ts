@@ -37,7 +37,6 @@ export class DgForgetPasswordComponent implements OnInit {
     var telephone=this.changePassword.get('telephone').value
     this.activateSpinner=true;
     this.RequestService.get("api/auth/recoverByPhone/"+telephone).subscribe(r=>{
-      console.log(r)
       this.idUser=r
       this.activateSpinner=false;
       this.openRestartPassword();
@@ -48,7 +47,6 @@ export class DgForgetPasswordComponent implements OnInit {
   telephoneCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      console.log(control.value)
       return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  {exist:result} :null )

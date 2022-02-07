@@ -30,3 +30,51 @@ h3{
 ::ng-deep .snackSuccess {
   background-color: #41a812;
 }
+.filters{
+  display: flex;
+  flex-wrap: wrap;
+  height: fit-content;
+}
+.date-picker{
+  width: max-content;
+  height: 50px;
+  margin-right: 10px;
+  border-color:#c2c0c0;
+  border-radius:5px;
+  border-style:solid;
+  border-width:1px;
+  color:#424242;
+  font-family:Montserrat;
+  font-size:13px;
+  margin-top: 10px;
+}
+.field-filter{
+  width: max-content;
+  height: 50px;
+  margin-right: 10px;
+  border-color:#c2c0c0;
+  border-radius:5px;
+  border-style:solid;
+  border-width:1px;
+  color:#424242;
+  font-family:Montserrat;
+  font-size:13px;
+  margin-top: 10px;
+}
+tr.mat-footer-row {
+  font-weight: bold;
+  background-color: #ebebeb;
+}
+.btn-catalog2{
+  
+  color:#424242;
+  display:flex;
+  font-family:Montserrat;
+  font-size:13px;
+  font-weight:500;
+  line-height:19.5px;
+  padding:6px 14px;
+  margin-left:20px;
+  margin-top: 20px;
+  width: max-content;
+}

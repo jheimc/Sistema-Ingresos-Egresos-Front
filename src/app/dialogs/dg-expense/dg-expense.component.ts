@@ -207,7 +207,7 @@ export class DgExpenseComponent implements OnInit {
       }
 
   changeFormat(event){
-     console.log(event)
+     //console.log(event)
   }
   onChangeAccount(){ 
     this.selectAccount=true;
@@ -232,7 +232,6 @@ export class DgExpenseComponent implements OnInit {
 
   getTotalAccount(id){
     this.totalAccount=0;
-    console.log(this.data.allExpenses)
     this.data.allExpenses.map(expense=>{
       if(expense.idExpense==id && expense.month==this.month && expense.date.split("-")[0]==this.year.toString()){
         this.totalAccount+=expense.amount
@@ -252,7 +251,6 @@ export class DgExpenseComponent implements OnInit {
       }
     })
     if(this.limitStatus){
-      console.log(this.data.allExpenses)
       this.data.allExpenses.map(expense=>{
         if(expense.month==month && expense.date.split("-")[0]==year.toString()){
           this.totalMonth+=expense.amount

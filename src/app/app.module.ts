@@ -59,6 +59,8 @@ import { Decimal2Directive } from './directives/decimal2.directive';
 import { DgAddLimitComponent } from './dialogs/dg-add-limit/dg-add-limit.component';
 import { LimitsPageComponent } from './pages/limits-page/limits-page.component';
 import { DgMessageComponent } from './dialogs/dg-message/dg-message.component';
+import { DgMessageTransactionComponent } from './dialogs/dg-message-transaction/dg-message-transaction.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,7 +92,8 @@ import { DgMessageComponent } from './dialogs/dg-message/dg-message.component';
     Decimal2Directive,
     DgAddLimitComponent,
     LimitsPageComponent,
-    DgMessageComponent
+    DgMessageComponent,
+    DgMessageTransactionComponent
   ],
   imports: [
     BrowserModule,
@@ -116,7 +119,8 @@ import { DgMessageComponent } from './dialogs/dg-message/dg-message.component';
     MatDatepickerModule,
     MatNativeDateModule,
     NgxChartsModule,
-    MaterialFileInputModule
+    MaterialFileInputModule,
+    MatPaginatorModule
   ],
   providers: [CookieService,RequestService,interceptorProvider,DecimalPipe],
   bootstrap: [AppComponent]

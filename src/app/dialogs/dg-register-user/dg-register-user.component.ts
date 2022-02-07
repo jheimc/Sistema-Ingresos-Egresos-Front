@@ -23,6 +23,7 @@ export class DgRegisterUserComponent implements OnInit {
     roles:any;
     units:any;
     user:any;
+    date:any;
   private isValidEmail:any=/\S+@\S+\.\S/;
   private isValidUserName:any=/^[a-zA-Z0-9]+$/;
   private isValidNumber="([6-7]{1})([0-9]{7})"
@@ -63,20 +64,19 @@ export class DgRegisterUserComponent implements OnInit {
   rolesDisp:any[]=[];
   destroy:boolean;
   ngOnInit(): void {
-   console.log(this.data)
     this.transform=this.data.transform;
     this.roles=this.data.roleList;
     this.units=this.data.unitList;
-    console.log(this.data)
     this.registerUser.controls['password'].setValue(this.passwordGenerate);
 
     if(this.transform=='edit'){
       this.user=this.data.user;
+      let fechaDate = new Date(this.user?.expiryDate + ' 0:00:00')
       this.editUser.get('name').setValue(this.user?.name);
       this.editUser.controls['username'].setValue(this.user?.username);
       this.editUser.controls['password'].setValue("");
       this.editUser.controls['telephone'].setValue(this.user?.telephone);
-      this.editUser.controls['expiryDate'].setValue(this.user?.expiryDate);
+      this.editUser.controls['expiryDate'].setValue(fechaDate);
 
     }
     //this.filterUnit();
@@ -109,9 +109,8 @@ export class DgRegisterUserComponent implements OnInit {
   
   
   saveUser(user,formDirective: FormGroupDirective){
-    console.log("Esta es a unidadRegistrar",user);
-    
-    this.RequestService.post('api/user/createUser', user)
+    this.registerUser.get('expiryDate').setValue(this.date)
+    this.RequestService.post('api/user/createUser', this.registerUser.value)
     .subscribe({
       next:()=>{
         this.snack.open('Usuario registrado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -124,9 +123,10 @@ export class DgRegisterUserComponent implements OnInit {
     });
   }
   saveEdit(update,formDirective: FormGroupDirective){
-
-    console.log(update)
-    this.RequestService.put('api/user/updateDataUser/'+this.user?.idUser, update)
+    const expiryDate=this.editUser.get('expiryDate').value;
+      this.date = (expiryDate === null || expiryDate === '') ? '' : expiryDate.toISOString().split('T')[0];
+      this.editUser.get('expiryDate').setValue(this.date)
+    this.RequestService.put('api/user/updateDataUser/'+this.user?.idUser, this.editUser.value)
     .subscribe({
       next:()=>{
         this.snack.open('Usuario actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -143,7 +143,6 @@ export class DgRegisterUserComponent implements OnInit {
   usernameCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      console.log(control.value)
       return this.RequestService.get('api/user/uniqueUserName/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : {exist:!result})
@@ -154,7 +153,6 @@ export class DgRegisterUserComponent implements OnInit {
   telephoneCheck(): AsyncValidatorFn{
 
     return (control: AbstractControl) => {
-      console.log(control.value)
       return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
         .pipe(
           map((result) => (result==true) ?  null : {exist:!result})
@@ -184,7 +182,6 @@ export class DgRegisterUserComponent implements OnInit {
   }
   getErrorMessage(field: string,funct:string):string{
     let message;
-    //var valor=this.registerUser?.get(field)    console.log(valor)
 
     if(funct=='register'){
       if(this.registerUser?.get(field).errors?.required){
@@ -223,7 +220,6 @@ export class DgRegisterUserComponent implements OnInit {
     telephoneCheckEdit(): AsyncValidatorFn{
 
       return (control: AbstractControl) => {
-        console.log(control.value)
         return this.RequestService.get('api/auth/uniqueTelephoneAll/'+control.value)
           .pipe(
             map((result) => (result==true) ?  null : ((control.value==this.user.telephone)?null:{exist:!result}))
@@ -260,8 +256,8 @@ export class DgRegisterUserComponent implements OnInit {
 
       addEvent(event: MatDatepickerInputEvent<Date>) {
         const expiryDate=this.registerUser.get('expiryDate').value;
-      const date = (expiryDate === null || expiryDate === '') ? '' : expiryDate.toISOString().split('T')[0];
-      this.registerUser.get('expiryDate').setValue(date)
+      this.date = (expiryDate === null || expiryDate === '') ? '' : expiryDate.toISOString().split('T')[0];
+      //this.registerUser.get('expiryDate').setValue(date)
       }
 
      

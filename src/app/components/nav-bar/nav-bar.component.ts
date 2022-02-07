@@ -26,11 +26,7 @@ export class NavBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    
       this.getDataUser();
-    
-    
-    
   }
   ngAfterViewInit(){
     this.verifyUser()
@@ -40,16 +36,10 @@ export class NavBarComponent implements OnInit {
     this.cookieService.delete('token','/','localhost',false,'Lax')
     localStorage.clear()
     this.RequestService.post("api/auth/logout",{}).subscribe(r=>{
-      console.log(r)
     })
     this.router.navigate(['/login']).then(() => {
       window.location.reload();
     });
-    
-    
-    
-   
-    
   }
   getDataUser(){
     this.user=JSON.parse(localStorage.getItem("user"))

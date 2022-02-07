@@ -24,9 +24,7 @@ export class DgMessageComponent implements OnInit {
       this.RequestService.put('api/expense/deleteExpense/'+this.data.idExpense,"")
       .subscribe({
         error:(e)=>{
-          console.log(e.error.text)
           if(e.error.text=="No se puede eliminar la cuenta de egreso "+this.data.expenseName){
-            console.log("no se puede eliminar")
             this.snack.open('No se puede eliminar, la cuenta '+this.data.expenseName+ ' tiene transacciones','CERRAR',{duration:5000,panelClass:'warning'})
           }else{
             this.snack.open('Cuenta eliminada exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

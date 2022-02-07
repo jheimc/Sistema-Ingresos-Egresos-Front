@@ -160,7 +160,7 @@ export class ReportExpensePageComponent implements OnInit {
     
     }
   dataForPrint(){
-    console.log(this.dataSource.data)
+    //console.log(this.dataSource.data)
   }
   getTotalCost(field:string) {
     

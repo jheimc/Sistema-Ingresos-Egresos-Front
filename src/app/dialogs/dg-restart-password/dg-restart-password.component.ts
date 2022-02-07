@@ -33,7 +33,6 @@ export class DgRestartPasswordComponent implements OnInit {
     confirmPassword:['',[Validators.required,Validators.minLength(6),this.confirmCheckUser()]],
   })
   ngOnInit(): void {
-    console.log(this.data)
   }
   existUser:string;
   

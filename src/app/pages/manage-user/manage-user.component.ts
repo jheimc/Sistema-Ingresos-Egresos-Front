@@ -44,7 +44,7 @@ export class ManageUserComponent implements OnInit {
       this.usersResponse=r;
       this.users=this.usersResponse;
       this.dataSource.data=this.users;
-      console.log("USERS ",this.users)
+      //console.log("USERS ",this.users)
     })
   }
 
@@ -69,16 +69,18 @@ export class ManageUserComponent implements OnInit {
 
 
   deleteUser(idUser){
-    console.log(idUser)
-    this.RequestService.put('api/user/deleteUser/'+idUser,{})
+    this.RequestService.put('api/user/deleteUser/'+idUser,"")
     .subscribe({
-      error:()=>{
-        this.snack.open('Usuario eliminado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
-        window.location.reload();
-      },
-      /* error:()=>{
-        this.snack.open('Fallo al eliminar el usuario','CERRAR',{duration:5000})
-      } */
+      error:(e)=>{
+        console.log(e)
+        if(e.error.text=="No se puede dar de baja al superusuario"){
+          this.snack.open('No se puede eliminar al superusuario','CERRAR',{duration:5000})
+        }else if(e.error.text=="Se dio de baja correctamente el usuario"){
+          this.snack.open('Usuario eliminado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
+          window.location.reload();
+        }
+        
+      }
     });
   }
 }

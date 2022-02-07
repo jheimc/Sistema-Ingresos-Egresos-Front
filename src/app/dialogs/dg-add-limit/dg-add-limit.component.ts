@@ -43,7 +43,6 @@ export class DgAddLimitComponent implements OnInit {
     }
   }
   sendLimit(limit){
-    console.log(limit)
      this.RequestService.post("api/limit/store/"+this.data.idExpense,limit).subscribe({
       next:()=>{
         this.snack.open('Limite añadido exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})
@@ -57,9 +56,7 @@ export class DgAddLimitComponent implements OnInit {
     }) 
   }
   updateLimit(limit){
-    console.log(limit)
     limit={idLimit:this.data.idLimit,limit:limit.limit}
-    console.log(limit)
     this.RequestService.put("api/limit/updateLimit",limit).subscribe({
       next:()=>{
         this.snack.open('Limite actualizado exitosamente.','CERRAR',{duration:5000,panelClass:'snackSuccess',})

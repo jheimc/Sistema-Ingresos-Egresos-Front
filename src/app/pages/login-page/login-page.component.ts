@@ -48,7 +48,6 @@ export class LoginPageComponent implements OnInit {
       this.RequestService.post('api/auth/authenticate',login)
       .subscribe( {
         next:(respuesta:any)=>{
-          console.log(respuesta)
           formDirective.resetForm();
           const dateNow = new Date();
           dateNow.setMinutes(dateNow.getMinutes() + 60);
@@ -62,7 +61,6 @@ export class LoginPageComponent implements OnInit {
           
           this.expiryMessage=respuesta.expiryMessage;
           this.userName=respuesta.userName;
-          console.log(this.user)
           this.user={idUser:this.idUser,userName:this.userName,name:respuesta.name}
           this.saveDataUser(respuesta.roles);
           //this.sendRoute(respuesta.identifier)
